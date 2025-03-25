@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>页面模板 - 机械租赁平台管理后台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- 侧边栏 -->
+    <aside class="w-64 hidden md:block">
+      <div class="sidebar h-full flex flex-col">
+        <!-- 侧边栏头部 -->
+        <div class="p-4 flex items-center border-b border-gray-700">
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+            <p class="text-xs text-gray-400">管理后台</p>
+          </div>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="flex-1 py-4 overflow-y-auto">
+          <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+            <i class="fas fa-home"></i>
+            <span>仪表盘</span>
+          </a>
+          <a href="users.html" id="menu-users" class="sidebar-link">
+            <i class="fas fa-users"></i>
+            <span>用户管理</span>
+          </a>
+          <a href="equipment.html" id="menu-equipment" class="sidebar-link">
+            <i class="fas fa-truck-monster"></i>
+            <span>设备管理</span>
+          </a>
+          <a href="orders.html" id="menu-orders" class="sidebar-link">
+            <i class="fas fa-clipboard-list"></i>
+            <span>订单管理</span>
+          </a>
+          <a href="finance.html" id="menu-finance" class="sidebar-link">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>财务管理</span>
+          </a>
+          <a href="reports.html" id="menu-reports" class="sidebar-link">
+            <i class="fas fa-chart-line"></i>
+            <span>报表分析</span>
+          </a>
+          <a href="settings.html" id="menu-settings" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            <span>系统设置</span>
+          </a>
+        </nav>
+        
+        <!-- 侧边栏底部 -->
+        <div class="p-4 border-t border-gray-700">
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+              <i class="fas fa-user text-gray-700"></i>
+            </div>
+            <div>
+              <p class="text-sm text-white font-medium user-name">管理员</p>
+              <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- 顶部导航 -->
+      <header class="bg-white shadow-sm top-header flex items-center px-6">
+        <button class="md:hidden mr-6" id="sidebar-toggle">
+          <i class="fas fa-bars text-gray-500"></i>
+        </button>
+        
+        <div class="flex-1">
+          <h2 class="text-lg font-medium text-gray-800" id="page-title">页面标题</h2>
+        </div>
+        
+        <div class="flex items-center">
+          <!-- 通知图标 -->
+          <div class="relative mr-4">
+            <button class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-bell"></i>
+              <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+          
+          <!-- 用户信息下拉菜单（移动端隐藏） -->
+          <div class="hidden md:block relative">
+            <button class="flex items-center text-gray-700">
+              <span class="mr-2 text-sm font-medium user-name">管理员</span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- 页面内容 -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- 页面内容将在这里填充 -->
+        <div class="placeholder-content">
+          <h3 class="text-xl font-medium text-gray-800 mb-6">页面标题</h3>
+          <p class="text-gray-600">这是一个页面模板，请根据需要修改内容。</p>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 hidden" id="sidebar-overlay"></div>
+  
+  <!-- 移动端侧边栏 -->
+  <div class="md:hidden fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-30 transform -translate-x-full transition-transform duration-300" id="mobile-sidebar">
+    <div class="sidebar h-full flex flex-col">
+      <!-- 侧边栏内容（与桌面版相同） -->
+      <div class="p-4 flex items-center border-b border-gray-700">
+        <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+          <p class="text-xs text-gray-400">管理后台</p>
+        </div>
+      </div>
+      
+      <!-- 导航菜单 -->
+      <nav class="flex-1 py-4 overflow-y-auto">
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="fas fa-home"></i>
+          <span>仪表盘</span>
+        </a>
+        <a href="users.html" class="sidebar-link">
+          <i class="fas fa-users"></i>
+          <span>用户管理</span>
+        </a>
+        <a href="equipment.html" class="sidebar-link">
+          <i class="fas fa-truck-monster"></i>
+          <span>设备管理</span>
+        </a>
+        <a href="orders.html" class="sidebar-link">
+          <i class="fas fa-clipboard-list"></i>
+          <span>订单管理</span>
+        </a>
+        <a href="finance.html" class="sidebar-link">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>财务管理</span>
+        </a>
+        <a href="reports.html" class="sidebar-link">
+          <i class="fas fa-chart-line"></i>
+          <span>报表分析</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="fas fa-cog"></i>
+          <span>系统设置</span>
+        </a>
+      </nav>
+      
+      <!-- 侧边栏底部 -->
+      <div class="p-4 border-t border-gray-700">
+        <div class="flex items-center">
+          <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+            <i class="fas fa-user text-gray-700"></i>
+          </div>
+          <div>
+            <p class="text-sm text-white font-medium user-name">管理员</p>
+            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/common.js"></script>
+  <script>
+    // 设置页面标题
+    setPageTitle('页面模板');
+    document.getElementById('page-title').textContent = '页面模板';
+    
+    // 获取用户信息
+    const username = localStorage.getItem('username') || '管理员';
+    const userNameElements = document.querySelectorAll('.user-name');
+    userNameElements.forEach(el => {
+      el.textContent = username;
+    });
+    
+    // 设置活动菜单项
+    // setActiveMenuItem('menu-dashboard');
+    
+    // 处理移动端侧边栏
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    
+    sidebarToggle.addEventListener('click', () => {
+      mobileSidebar.classList.toggle('-translate-x-full');
+      sidebarOverlay.classList.toggle('hidden');
+    });
+    
+    sidebarOverlay.addEventListener('click', () => {
+      mobileSidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    });
+  </script>
+</body>
+</html> 

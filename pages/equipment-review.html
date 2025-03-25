@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备审核 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .equipment-table th {
+            white-space: nowrap;
+        }
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-maintenance {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-inactive {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .status-leased {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--info-color);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .status-approved {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .equipment-header {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .review-section {
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .review-section-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 8px 8px 0 0;
+        }
+        .review-section-body {
+            padding: 1.5rem;
+        }
+        .review-field {
+            margin-bottom: 1rem;
+        }
+        .review-field-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        .review-field-value {
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .review-image {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .review-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .review-image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 0.875rem;
+        }
+        .btn-approve {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .btn-approve:hover {
+            background-color: #059669;
+        }
+        .btn-reject {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .btn-reject:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link active">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">设备审核</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 主要内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 页面头部 -->
+                <div class="flex flex-wrap items-center justify-between mb-6">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-medium text-gray-800">设备审核详情</h3>
+                        <p class="text-sm text-gray-500">审核提交的设备信息</p>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <a href="equipment1.html" class="btn bg-gray-100 text-gray-700 mr-2">
+                            <i class="fas fa-arrow-left mr-1"></i> 返回列表
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 申请信息卡片 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header flex justify-between items-center">
+                        <h4 class="text-lg font-medium text-gray-800">申请信息</h4>
+                        <span class="badge status-pending px-3 py-1">待审核</span>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="review-field">
+                                <div class="review-field-label">提交审核时间</div>
+                                <div class="review-field-value">2023-12-05 02:33</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">设备ID</div>
+                                <div class="review-field-value">DEV-20230012</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">添加日期</div>
+                                <div class="review-field-value">2023-04-10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设备基本信息 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h4 class="text-lg font-medium text-gray-800">设备基本信息</h4>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="review-field">
+                                <div class="review-field-label">机械名称</div>
+                                <div class="review-field-value">徐工起重机</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">机械类型</div>
+                                <div class="review-field-value">起重机</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">机械属性</div>
+                                <div class="review-field-value">25.00 - 45.00 吨</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">机械品牌</div>
+                                <div class="review-field-value">徐工</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">机械型号</div>
+                                <div class="review-field-value">XCT25L5</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">机械年份</div>
+                                <div class="review-field-value">2018</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">日租金</div>
+                                <div class="review-field-value">¥2,200</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">月租金</div>
+                                <div class="review-field-value">¥52,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 机主信息 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h4 class="text-lg font-medium text-gray-800">机主信息</h4>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-blue-600 font-medium text-lg">KJ</span>
+                            </div>
+                            <div>
+                                <div class="text-lg font-medium text-gray-800">科技有限公司</div>
+                                <div class="text-sm text-gray-500">公司 <span class="text-blue-500">| ID: C1289</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div class="review-field">
+                                <div class="review-field-label">联系人</div>
+                                <div class="review-field-value">王经理</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">联系电话</div>
+                                <div class="review-field-value">138****5678</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">经营地址</div>
+                                <div class="review-field-value">上海市浦东新区张江高科技园区</div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label">营业执照</div>
+                                <div class="review-field-value">已上传 <a href="#" class="text-blue-500 hover:underline">查看</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设备图片 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h4 class="text-lg font-medium text-gray-800">设备图片</h4>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="review-field">
+                                <div class="review-field-label mb-2">机械整机照片</div>
+                                <div class="review-image aspect-w-16 aspect-h-9">
+                                    <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="机械整机照片">
+                                </div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label mb-2">机械产品铭牌</div>
+                                <div class="review-image aspect-w-16 aspect-h-9">
+                                    <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="机械产品铭牌">
+                                </div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label mb-2">机械背面照片</div>
+                                <div class="review-image aspect-w-16 aspect-h-9">
+                                    <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="机械背面照片">
+                                </div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label mb-2">机械合格证照片</div>
+                                <div class="review-image aspect-w-16 aspect-h-9">
+                                    <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="机械合格证照片">
+                                </div>
+                            </div>
+                            <div class="review-field">
+                                <div class="review-field-label mb-2">机械侧面照片</div>
+                                <div class="review-image aspect-w-16 aspect-h-9">
+                                    <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="机械侧面照片">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 审核意见 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h4 class="text-lg font-medium text-gray-800">审核意见</h4>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="mb-4">
+                            <label for="review-comment" class="block text-sm font-medium text-gray-700 mb-2">审核备注</label>
+                            <textarea id="review-comment" rows="4" class="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="请输入审核意见..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 审核按钮 -->
+                <div class="flex justify-end space-x-4 mt-8">
+                    <button class="btn btn-reject px-6 py-3">
+                        <i class="fas fa-times-circle mr-2"></i> 不通过
+                    </button>
+                    <button class="btn btn-approve px-6 py-3">
+                        <i class="fas fa-check-circle mr-2"></i> 通过
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前菜单活动状态
+            document.getElementById('menu-equipment').classList.add('active');
+            
+            // 审核通过按钮
+            const approveButton = document.querySelector('.btn-approve');
+            approveButton.addEventListener('click', function() {
+                const comment = document.getElementById('review-comment').value;
+                const confirmApprove = confirm('确定要通过此设备的审核吗?');
+                if (confirmApprove) {
+                    // 这里可以添加审核通过逻辑
+                    console.log('审核通过，备注:', comment);
+                    alert('审核已通过！');
+                    window.location.href = 'equipment1.html';
+                }
+            });
+            
+            // 审核拒绝按钮
+            const rejectButton = document.querySelector('.btn-reject');
+            rejectButton.addEventListener('click', function() {
+                const comment = document.getElementById('review-comment').value;
+                if (!comment) {
+                    alert('请输入拒绝原因！');
+                    return;
+                }
+                
+                const confirmReject = confirm('确定要拒绝此设备的审核吗?');
+                if (confirmReject) {
+                    // 这里可以添加审核拒绝逻辑
+                    console.log('审核拒绝，原因:', comment);
+                    alert('审核已拒绝！');
+                    window.location.href = 'equipment1.html';
+                }
+            });
+            
+            // 图片点击放大
+            const images = document.querySelectorAll('.review-image img');
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    this.classList.toggle('fixed');
+                    this.classList.toggle('inset-0');
+                    this.classList.toggle('w-full');
+                    this.classList.toggle('h-full');
+                    this.classList.toggle('z-50');
+                    this.classList.toggle('object-contain');
+                    this.classList.toggle('bg-black');
+                    this.classList.toggle('bg-opacity-75');
+                    this.classList.toggle('p-4');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备管理 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .equipment-table th {
+            white-space: nowrap;
+        }
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-maintenance {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-inactive {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .status-leased {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--info-color);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .status-approved {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .equipment-header {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            background-color: #f3f4f6;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+        .filter-pill:hover, .filter-pill.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .filter-pill i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link active">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">设备管理</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 主要内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 页面头部 -->
+                <div class="flex flex-wrap items-center justify-between mb-6">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-medium text-gray-800">设备列表</h3>
+                        <p class="text-sm text-gray-500">管理所有可租赁的设备</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button class="btn btn-primary flex items-center" id="add-equipment-btn">
+                            <i class="fas fa-plus mr-2"></i>
+                            <span>添加设备</span>
+                        </button>
+                        <div class="relative">
+                            <input type="text" placeholder="搜索设备..." class="form-control py-2 pl-10 pr-4 search-input">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 设备统计卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="card stat-card flex items-center">
+                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-500">
+                            <i class="fas fa-truck-monster text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-gray-500 text-sm font-medium">总设备数</h4>
+                            <span class="text-2xl font-semibold text-gray-800">120</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card flex items-center">
+                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-500">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-gray-500 text-sm font-medium">已审核设备</h4>
+                            <span class="text-2xl font-semibold text-gray-800">88</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card flex items-center">
+                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 text-yellow-500">
+                            <i class="fas fa-clock text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-gray-500 text-sm font-medium">待审核设备</h4>
+                            <span class="text-2xl font-semibold text-gray-800">32</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 筛选选项 -->
+                <div class="bg-white p-3 rounded-lg shadow-sm mb-6">
+                    <div class="flex items-center">
+                        <span class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-filter text-blue-600 text-sm"></i>
+                        </span>
+                        <div class="mr-auto">
+                            <h4 class="text-sm font-medium text-gray-800">设备筛选</h4>
+                            <p class="text-xs text-gray-500">根据条件筛选设备</p>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button class="btn btn-primary h-8 w-24 flex items-center justify-center">
+                                <i class="fas fa-filter mr-1"></i> 筛选
+                            </button>
+                            <button class="btn h-8 w-8 text-gray-600 bg-gray-100 flex items-center justify-center">
+                                <i class="fas fa-redo-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-3 mt-3">
+                        <div>
+                            <label class="form-label text-xs mb-1 block text-gray-600">设备类型</label>
+                            <select class="form-control py-1 text-sm">
+                                <option value="">设备类型</option>
+                                <option value="excavator">挖掘机</option>
+                                <option value="loader">装载机</option>
+                                <option value="bulldozer">推土机</option>
+                                <option value="crane">起重机</option>
+                                <option value="concrete">混凝土设备</option>
+                                <option value="roller">压路机</option>
+                                <option value="other">其他设备</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label text-xs mb-1 block text-gray-600">设备品牌</label>
+                            <select class="form-control py-1 text-sm">
+                                <option value="">设备品牌</option>
+                                <option value="caterpillar">卡特彼勒</option>
+                                <option value="komatsu">小松</option>
+                                <option value="sany">三一重工</option>
+                                <option value="xcmg">徐工</option>
+                                <option value="zoomlion">中联重科</option>
+                                <option value="liugong">柳工</option>
+                                <option value="hitachi">日立</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label text-xs mb-1 block text-gray-600">设备状态</label>
+                            <select class="form-control py-1 text-sm">
+                                <option value="">全部状态</option>
+                                <option value="approved">已审核</option>
+                                <option value="pending">未审核</option>
+                                <option value="rejected">未通过</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label text-xs mb-1 block text-gray-600">价格区间</label>
+                            <div class="flex space-x-1">
+                                <input type="number" placeholder="最低" class="form-control py-1 w-1/2 text-sm">
+                                <input type="number" placeholder="最高" class="form-control py-1 w-1/2 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label text-xs mb-1 block text-gray-600">机主类型</label>
+                            <select class="form-control py-1 text-sm">
+                                <option value="">机主类型</option>
+                                <option value="company">公司设备</option>
+                                <option value="personal">个人设备</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <button class="filter-pill active">
+                            <i class="fas fa-th-large"></i> 全部
+                        </button>
+                        <button class="filter-pill">
+                            <i class="fas fa-check-circle"></i> 已审核
+                        </button>
+                        <button class="filter-pill">
+                            <i class="fas fa-clock"></i> 未审核
+                        </button>
+                        <button class="filter-pill">
+                            <i class="fas fa-times-circle"></i> 未通过
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 设备表格 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <div class="overflow-x-auto">
+                    <table class="custom-table w-full table-fixed">
+                      <thead>
+                        <tr>
+                          <th class="w-10">
+                            <input type="checkbox" class="form-checkbox">
+                          </th>
+                          <th class="w-32">设备名称</th>
+                          <th class="w-20">设备ID</th>
+                          <th class="w-20">设备类型</th>
+                          <th class="w-20">设备品牌</th>
+                          <th class="w-24">设备型号</th>
+                          <th class="w-40">所属机主</th>
+                          <th class="w-24">日租金</th>
+                          <th class="w-20">状态</th>
+                          <th class="w-24 text-right">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- 设备1 -->
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="form-checkbox">
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="卡特彼勒挖掘机" class="w-10 h-10 rounded object-cover mr-3">
+                              <div>
+                                <div class="font-medium text-gray-800">卡特彼勒挖掘机</div>
+                                <div class="text-xs text-gray-500">添加于 2023-02-15</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center text-gray-800">DEV-20230001</div>
+                          </td>
+                          <td>
+                            <span class="badge badge-blue">挖掘机</span>
+                          </td>
+                          <td>
+                            <div class="text-center">卡特彼勒</div>
+                          </td>
+                          <td>
+                            <div class="text-center">CAT 320</div>
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-orange-600 font-medium">ZX</span>
+                              </div>
+                              <div>
+                                <div class="font-medium text-gray-800">张先生</div>
+                                <div class="text-xs text-gray-500">个人 <span class="text-blue-500">| ID: P2301</span></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center font-medium">¥1800</div>
+                            <div class="text-xs text-gray-500 text-center">月租:¥45,000</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge status-approved">已审核</span>
+                          </td>
+                          <td class="text-right">
+                            <button class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm bg-green-50 text-green-600 mr-1">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm bg-gray-50 text-gray-600">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                        <!-- 设备2 -->
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="form-checkbox">
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="徐工起重机" class="w-10 h-10 rounded object-cover mr-3">
+                              <div>
+                                <div class="font-medium text-gray-800">徐工起重机</div>
+                                <div class="text-xs text-gray-500">添加于 2023-04-10</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center text-gray-800">DEV-20230012</div>
+                          </td>
+                          <td>
+                            <span class="badge badge-blue">起重机</span>
+                          </td>
+                          <td>
+                            <div class="text-center">徐工</div>
+                          </td>
+                          <td>
+                            <div class="text-center">XCT25L5</div>
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-blue-600 font-medium">KJ</span>
+                              </div>
+                              <div>
+                                <div class="font-medium text-gray-800">科技有限公司</div>
+                                <div class="text-xs text-gray-500">公司 <span class="text-blue-500">| ID: C1289</span></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center font-medium">¥2200</div>
+                            <div class="text-xs text-gray-500 text-center">月租:¥52,000</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge status-pending">待审核</span>
+                          </td>
+                          <td class="text-right">
+                            <a href="equipment-review.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                              <i class="fas fa-clipboard-check"></i>
+                            </a>
+                            <button class="btn btn-sm bg-green-50 text-green-600 mr-1">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm bg-gray-50 text-gray-600">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                        <!-- 设备3 -->
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="form-checkbox">
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="三一重工泵车" class="w-10 h-10 rounded object-cover mr-3">
+                              <div>
+                                <div class="font-medium text-gray-800">三一重工泵车</div>
+                                <div class="text-xs text-gray-500">添加于 2023-01-08</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center text-gray-800">DEV-20230008</div>
+                          </td>
+                          <td>
+                            <span class="badge badge-green">混凝土设备</span>
+                          </td>
+                          <td>
+                            <div class="text-center">三一重工</div>
+                          </td>
+                          <td>
+                            <div class="text-center">SYM5419THB</div>
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-indigo-600 font-medium">WX</span>
+                              </div>
+                              <div>
+                                <div class="font-medium text-gray-800">王先生</div>
+                                <div class="text-xs text-gray-500">个人 <span class="text-blue-500">| ID: P1958</span></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center font-medium">¥2500</div>
+                            <div class="text-xs text-gray-500 text-center">月租:¥60,000</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge status-pending">待审核</span>
+                          </td>
+                          <td class="text-right">
+                            <a href="equipment-review.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                              <i class="fas fa-clipboard-check"></i>
+                            </a>
+                            <button class="btn btn-sm bg-green-50 text-green-600 mr-1">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm bg-gray-50 text-gray-600">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                        <!-- 设备4 -->
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="form-checkbox">
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="小松推土机" class="w-10 h-10 rounded object-cover mr-3">
+                              <div>
+                                <div class="font-medium text-gray-800">小松推土机</div>
+                                <div class="text-xs text-gray-500">添加于 2023-05-20</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center text-gray-800">DEV-20230025</div>
+                          </td>
+                          <td>
+                            <span class="badge badge-yellow">推土机</span>
+                          </td>
+                          <td>
+                            <div class="text-center">小松</div>
+                          </td>
+                          <td>
+                            <div class="text-center">D85E-SS-2</div>
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-red-600 font-medium">LN</span>
+                              </div>
+                              <div>
+                                <div class="font-medium text-gray-800">李女士</div>
+                                <div class="text-xs text-gray-500">个人 <span class="text-blue-500">| ID: P2105</span></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center font-medium">¥1650</div>
+                            <div class="text-xs text-gray-500 text-center">月租:¥40,000</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge status-approved">已审核</span>
+                          </td>
+                          <td class="text-right">
+                            <button class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm bg-green-50 text-green-600 mr-1">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm bg-gray-50 text-gray-600">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                        <!-- 设备5 -->
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="form-checkbox">
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="利勃海尔塔吊" class="w-10 h-10 rounded object-cover mr-3">
+                              <div>
+                                <div class="font-medium text-gray-800">利勃海尔塔吊</div>
+                                <div class="text-xs text-gray-500">添加于 2023-03-12</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center text-gray-800">DEV-20230018</div>
+                          </td>
+                          <td>
+                            <span class="badge badge-orange">起重机</span>
+                          </td>
+                          <td>
+                            <div class="text-center">利勃海尔</div>
+                          </td>
+                          <td>
+                            <div class="text-center">280 EC-H</div>
+                          </td>
+                          <td>
+                            <div class="flex items-center">
+                              <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-green-600 font-medium">SM</span>
+                              </div>
+                              <div>
+                                <div class="font-medium text-gray-800">数码科技有限公司</div>
+                                <div class="text-xs text-gray-500">公司 <span class="text-blue-500">| ID: C2203</span></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="text-center font-medium">¥3800</div>
+                            <div class="text-xs text-gray-500 text-center">月租:¥88,000</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge status-approved">已审核</span>
+                          </td>
+                          <td class="text-right">
+                            <button class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm bg-green-50 text-green-600 mr-1">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm bg-gray-50 text-gray-600">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                <!-- 分页器 -->
+                <div class="mt-5 flex flex-wrap justify-between items-center">
+                  <div class="text-sm text-gray-600">
+                    显示 1 至 5 项结果，共 120 项
+                  </div>
+                  <div class="flex justify-center mt-4 md:mt-0">
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 mr-2 hover:bg-gray-100">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="px-3 py-1 rounded bg-blue-500 text-white mr-2">1</button>
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 mr-2 hover:bg-gray-100">2</button>
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 mr-2 hover:bg-gray-100">3</button>
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 mr-2 hover:bg-gray-100">4</button>
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 mr-2 hover:bg-gray-100">5</button>
+                    <button class="px-3 py-1 rounded border border-gray-300 text-gray-600 hover:bg-gray-100">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 添加设备模态框 -->
+    <div id="addEquipmentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl">
+            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-800">添加新设备</h3>
+                <button id="closeAddModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="form-label" for="equipmentName">设备名称</label>
+                        <input type="text" id="equipmentName" class="form-control" placeholder="输入设备名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="equipmentType">设备类型</label>
+                        <select id="equipmentType" class="form-control">
+                            <option value="">选择设备类型</option>
+                            <option value="excavator">挖掘机</option>
+                            <option value="loader">装载机</option>
+                            <option value="bulldozer">推土机</option>
+                            <option value="crane">起重机</option>
+                            <option value="concrete">混凝土设备</option>
+                            <option value="roller">压路机</option>
+                            <option value="other">其他设备</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="equipmentBrand">设备品牌</label>
+                        <input type="text" id="equipmentBrand" class="form-control" placeholder="输入设备品牌">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="equipmentModel">设备型号</label>
+                        <input type="text" id="equipmentModel" class="form-control" placeholder="输入设备型号">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ownerType">机主类型</label>
+                        <select id="ownerType" class="form-control">
+                            <option value="">选择机主类型</option>
+                            <option value="personal">个人</option>
+                            <option value="company">公司</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ownerInfo">机主信息</label>
+                        <input type="text" id="ownerInfo" class="form-control" placeholder="输入机主姓名/公司名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="dailyPrice">日租金价格 (元/天)</label>
+                        <input type="number" id="dailyPrice" class="form-control" placeholder="输入日租金价格">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="equipmentStatus">设备状态</label>
+                        <select id="equipmentStatus" class="form-control">
+                            <option value="approved">已审核</option>
+                            <option value="pending">待审核</option>
+                        </select>
+                    </div>
+                    <div class="form-group md:col-span-2">
+                        <label class="form-label" for="equipmentImage">设备图片</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
+                                    <span>上传文件</span>
+                                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">或拖放文件到此处</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF 最大 2MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
+                <button id="cancelAddEquipment" class="btn bg-gray-100 text-gray-700 mr-2">取消</button>
+                <button id="saveEquipment" class="btn btn-primary">保存设备</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前菜单活动状态
+            document.getElementById('menu-equipment').classList.add('active');
+            
+            // 显示/隐藏添加设备模态框
+            const addEquipmentBtn = document.getElementById('add-equipment-btn');
+            const addEquipmentModal = document.getElementById('addEquipmentModal');
+            const closeAddModal = document.getElementById('closeAddModal');
+            const cancelAddEquipment = document.getElementById('cancelAddEquipment');
+            
+            addEquipmentBtn.addEventListener('click', function() {
+                addEquipmentModal.classList.remove('hidden');
+            });
+            
+            closeAddModal.addEventListener('click', function() {
+                addEquipmentModal.classList.add('hidden');
+            });
+            
+            cancelAddEquipment.addEventListener('click', function() {
+                addEquipmentModal.classList.add('hidden');
+            });
+            
+            // 点击模态框外部关闭模态框
+            window.addEventListener('click', function(event) {
+                if (event.target === addEquipmentModal) {
+                    addEquipmentModal.classList.add('hidden');
+                }
+            });
+            
+            // 保存设备
+            const saveEquipment = document.getElementById('saveEquipment');
+            saveEquipment.addEventListener('click', function() {
+                // 获取表单数据
+                const equipmentData = {
+                    name: document.getElementById('equipmentName').value,
+                    type: document.getElementById('equipmentType').value,
+                    brand: document.getElementById('equipmentBrand').value,
+                    model: document.getElementById('equipmentModel').value,
+                    ownerType: document.getElementById('ownerType').value,
+                    ownerInfo: document.getElementById('ownerInfo').value,
+                    price: document.getElementById('dailyPrice').value,
+                    status: document.getElementById('equipmentStatus').value
+                };
+                
+                // 表单验证
+                if (!equipmentData.name || !equipmentData.type || !equipmentData.brand || 
+                    !equipmentData.model || !equipmentData.ownerType || !equipmentData.ownerInfo || 
+                    !equipmentData.price) {
+                    alert('请填写所有必填字段');
+                    return;
+                }
+                
+                // 这里可以添加保存到后端的逻辑
+                console.log('保存设备数据:', equipmentData);
+                
+                // 关闭模态框
+                addEquipmentModal.classList.add('hidden');
+                
+                // 显示成功提示
+                alert('设备添加成功！');
+                
+                // 清空表单
+                document.getElementById('equipmentName').value = '';
+                document.getElementById('equipmentType').value = '';
+                document.getElementById('equipmentBrand').value = '';
+                document.getElementById('equipmentModel').value = '';
+                document.getElementById('ownerType').value = '';
+                document.getElementById('ownerInfo').value = '';
+                document.getElementById('dailyPrice').value = '';
+                document.getElementById('equipmentStatus').value = 'approved';
+            });
+            
+            // 过滤器按钮切换
+            const filterPills = document.querySelectorAll('.filter-pill');
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // 移除所有活动状态
+                    filterPills.forEach(p => {
+                        p.classList.remove('active');
+                    });
+                    
+                    // 为当前添加活动状态
+                    this.classList.add('active');
+                    
+                    // 这里可以添加过滤逻辑
+                    const filterType = this.textContent.trim();
+                    console.log('筛选类型:', filterType);
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // 全选/取消全选
+            const selectAllCheckbox = document.querySelector('th input[type="checkbox"]');
+            selectAllCheckbox.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('td input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+            
+            // 操作按钮事件
+            const viewButtons = document.querySelectorAll('.btn-sm i.fa-eye');
+            viewButtons.forEach(button => {
+                button.parentElement.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const name = row.querySelector('.font-medium.text-gray-800').textContent;
+                    alert(`查看设备详情: ${name}`);
+                });
+            });
+            
+            const editButtons = document.querySelectorAll('.btn-sm i.fa-edit');
+            editButtons.forEach(button => {
+                button.parentElement.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const name = row.querySelector('.font-medium.text-gray-800').textContent;
+                    alert(`编辑设备: ${name}`);
+                });
+            });
+            
+            const moreButtons = document.querySelectorAll('.btn-sm i.fa-ellipsis-v');
+            moreButtons.forEach(button => {
+                button.parentElement.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const name = row.querySelector('.font-medium.text-gray-800').textContent;
+                    const confirmDelete = confirm(`确定要删除设备: ${name} 吗?`);
+                    if (confirmDelete) {
+                        // 这里可以添加删除逻辑
+                        console.log(`删除设备: ${name}`);
+                        row.remove();
+                    }
+                });
+            });
+            
+            // 添加审核按钮事件
+            const reviewButtons = document.querySelectorAll('.btn-sm i.fa-clipboard-check');
+            reviewButtons.forEach(button => {
+                button.parentElement.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const name = row.querySelector('.font-medium.text-gray-800').textContent;
+                    const deviceId = row.querySelector('.text-center.text-gray-800').textContent;
+                    console.log(`审核设备: ${name}, ID: ${deviceId}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

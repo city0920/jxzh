@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订单详情 - 机械租赁平台管理后台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- 侧边栏 -->
+    <aside class="w-64 hidden md:block">
+      <div class="sidebar h-full flex flex-col">
+        <!-- 侧边栏头部 -->
+        <div class="p-4 flex items-center border-b border-gray-700">
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+            <p class="text-xs text-gray-400">管理后台</p>
+          </div>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="flex-1 py-4 overflow-y-auto">
+          <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+            <i class="fas fa-home"></i>
+            <span>仪表盘</span>
+          </a>
+          <a href="users.html" id="menu-users" class="sidebar-link">
+            <i class="fas fa-users"></i>
+            <span>用户管理</span>
+          </a>
+          <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+            <i class="fas fa-truck-monster"></i>
+            <span>设备管理</span>
+          </a>
+          <a href="orders.html" id="menu-orders" class="sidebar-link">
+            <i class="fas fa-clipboard-list"></i>
+            <span>订单管理</span>
+          </a>
+          <a href="finance.html" id="menu-finance" class="sidebar-link">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>财务管理</span>
+          </a>
+          <a href="reports.html" id="menu-reports" class="sidebar-link">
+            <i class="fas fa-chart-line"></i>
+            <span>报表分析</span>
+          </a>
+          <a href="settings.html" id="menu-settings" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            <span>系统设置</span>
+          </a>
+        </nav>
+        
+        <!-- 侧边栏底部 -->
+        <div class="p-4 border-t border-gray-700">
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+              <i class="fas fa-user text-gray-700"></i>
+            </div>
+            <div>
+              <p class="text-sm text-white font-medium user-name">管理员</p>
+              <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- 顶部导航 -->
+      <header class="bg-white shadow-sm top-header flex items-center px-6">
+        <button class="md:hidden mr-6 flex items-center justify-center" id="sidebar-toggle">
+          <i class="fas fa-bars text-gray-500"></i>
+        </button>
+        
+        <div class="flex-1">
+          <h2 class="text-lg font-medium text-gray-800" id="page-title">订单详情</h2>
+        </div>
+        
+        <div class="flex items-center">
+          <!-- 通知图标 -->
+          <div class="relative mr-4 flex items-center">
+            <button class="text-gray-500 hover:text-gray-700 flex items-center justify-center">
+              <i class="fas fa-bell"></i>
+              <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+          
+          <!-- 用户信息下拉菜单（移动端隐藏） -->
+          <div class="hidden md:flex items-center relative">
+            <button class="flex items-center text-gray-700">
+              <span class="mr-2 text-sm font-medium user-name">管理员</span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- 页面内容 -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- 返回按钮和操作栏 -->
+        <div class="flex flex-wrap items-center justify-between mb-6">
+          <div class="mb-4 md:mb-0 flex items-center">
+            <a href="orders.html" class="text-blue-600 hover:text-blue-800 flex items-center mr-4">
+              <i class="fas fa-arrow-left mr-1"></i> 返回订单列表
+            </a>
+            <h3 class="text-xl font-medium text-gray-800">订单 #ORD-2023-1058</h3>
+            <span class="ml-3 badge badge-success">进行中</span>
+          </div>
+          
+          <div class="flex flex-wrap items-center">
+            <button class="btn btn-primary mr-2">
+              <i class="fas fa-edit mr-1"></i> 编辑订单
+            </button>
+            <button class="btn bg-gray-600 text-white">
+              <i class="fas fa-print mr-1"></i> 打印订单
+            </button>
+            <div class="dropdown relative ml-2">
+              <button class="btn bg-gray-100 text-gray-700">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">发送给客户</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">标记为已完成</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">取消订单</a>
+                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">删除订单</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 订单信息概览 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <span class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <i class="fas fa-info text-blue-600"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">基本信息</h4>
+                <p class="text-lg font-semibold text-gray-800">#ORD-2023-1058</p>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">创建时间</span>
+                <span class="text-gray-800 font-medium">2023-07-15 09:30:45</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">订单状态</span>
+                <span class="text-green-600 font-medium">进行中</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">订单总额</span>
+                <span class="text-gray-800 font-medium">¥45,800</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">已付金额</span>
+                <span class="text-gray-800 font-medium">¥22,900</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">待付金额</span>
+                <span class="text-red-600 font-medium">¥22,900</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">支付方式</span>
+                <span class="text-gray-800 font-medium">对公转账</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <span class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                <i class="fas fa-user text-green-600"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">客户信息</h4>
+                <p class="text-lg font-semibold text-gray-800">上海建工集团</p>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">客户类型</span>
+                <span class="text-gray-800 font-medium">企业客户</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">联系人</span>
+                <span class="text-gray-800 font-medium">张建国</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">联系电话</span>
+                <span class="text-gray-800 font-medium">138-8888-8888</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">电子邮箱</span>
+                <span class="text-gray-800 font-medium">jianguo.zhang@shjiangong.com</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">公司地址</span>
+                <span class="text-gray-800 font-medium">上海市浦东新区张江高科技园区</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">历史订单</span>
+                <a href="#" class="text-blue-600 hover:text-blue-800">查看 (5)</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white p-5 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <span class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                <i class="fas fa-truck-monster text-yellow-600"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">租赁信息</h4>
+                <p class="text-lg font-semibold text-gray-800">王建设提供的设备</p>
+              </div>
+            </div>
+            
+            <!-- 机主信息 -->
+            <div class="space-y-3 mb-4">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">机主姓名</span>
+                <span class="text-gray-800 font-medium">王建设 (金牌机主)</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">联系电话</span>
+                <span class="text-gray-800 font-medium">139-1234-5678</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">租赁开始日期</span>
+                <span class="text-gray-800 font-medium">2023-07-15</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">租赁结束日期</span>
+                <span class="text-gray-800 font-medium">2023-08-15</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">租赁天数</span>
+                <span class="text-gray-800 font-medium">31天</span>
+              </div>
+            </div>
+            
+            <!-- 设备列表 -->
+            <div class="border-t border-gray-100 pt-4">
+              <h5 class="text-sm font-medium text-gray-700 mb-3">设备明细 (3)</h5>
+              
+              <!-- 设备项目1 -->
+              <div class="bg-gray-50 rounded-lg p-3 mb-3">
+                <div class="flex items-center mb-2">
+                  <span class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2 flex-shrink-0">
+                    <i class="fas fa-truck-monster text-yellow-600 text-sm"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">卡特彼勒挖掘机 CAT320</p>
+                    <p class="text-xs text-gray-500">ID: EQ001 | <span class="text-green-600">使用中</span></p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="text-gray-500">日租金: <span class="text-gray-800 font-medium">¥1,450/天</span></div>
+                  <div class="text-gray-500">操作员: <span class="text-gray-800 font-medium">刘师傅</span></div>
+                </div>
+              </div>
+              
+              <!-- 设备项目2 -->
+              <div class="bg-gray-50 rounded-lg p-3 mb-3">
+                <div class="flex items-center mb-2">
+                  <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                    <i class="fas fa-truck text-blue-600 text-sm"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">徐工装载机 LW500KN</p>
+                    <p class="text-xs text-gray-500">ID: EQ015 | <span class="text-green-600">使用中</span></p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="text-gray-500">日租金: <span class="text-gray-800 font-medium">¥980/天</span></div>
+                  <div class="text-gray-500">操作员: <span class="text-gray-800 font-medium">张师傅</span></div>
+                </div>
+              </div>
+              
+              <!-- 设备项目3 -->
+              <div class="bg-gray-50 rounded-lg p-3">
+                <div class="flex items-center mb-2">
+                  <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2 flex-shrink-0">
+                    <i class="fas fa-truck-pickup text-green-600 text-sm"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">小松推土机 D85E-SS-2</p>
+                    <p class="text-xs text-gray-500">ID: EQ022 | <span class="text-green-600">使用中</span></p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="text-gray-500">日租金: <span class="text-gray-800 font-medium">¥1,200/天</span></div>
+                  <div class="text-gray-500">操作员: <span class="text-gray-800 font-medium">李师傅</span></div>
+                </div>
+              </div>
+              
+              <div class="flex justify-end mt-3">
+                <span class="text-blue-600 text-sm cursor-pointer hover:text-blue-800">
+                  <i class="fas fa-eye mr-1"></i> 查看设备详情
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 详细信息标签卡 -->
+        <div class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+          <div class="border-b">
+            <div class="flex">
+              <button class="px-6 py-3 text-sm font-medium border-b-2 border-blue-600 text-blue-600">详细信息</button>
+              <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700">付款记录</button>
+              <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700">机主信息</button>
+              <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700">机械/设备</button>
+              <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700">操作日志</button>
+              <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700">相关文档</button>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <!-- 订单详情部分 -->
+            <div id="details-tab" class="tab-content active">
+              <h4 class="text-lg font-medium text-gray-800 mb-4">订单明细</h4>
+              
+              <div class="overflow-x-auto mb-6">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>设备名称</th>
+                      <th>规格型号</th>
+                      <th>单价</th>
+                      <th>数量</th>
+                      <th>租期</th>
+                      <th>小计</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="flex items-center">
+                          <img src="https://img2.baidu.com/it/u=335141447,4177773304&fm=253&fmt=auto&app=138&f=JPEG?w=752&h=500" alt="挖掘机" class="w-10 h-10 object-cover rounded mr-3">
+                          <div>
+                            <div class="font-medium">卡特彼勒挖掘机</div>
+                            <div class="text-xs text-gray-500">机械设备</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>CAT320</td>
+                      <td>¥1,450/天</td>
+                      <td>1</td>
+                      <td>31天</td>
+                      <td>¥44,950</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="flex items-center">
+                          <img src="https://img2.baidu.com/it/u=335141447,4177773304&fm=253&fmt=auto&app=138&f=JPEG?w=752&h=500" alt="装载机" class="w-10 h-10 object-cover rounded mr-3">
+                          <div>
+                            <div class="font-medium">徐工装载机</div>
+                            <div class="text-xs text-gray-500">机械设备</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>LW500KN</td>
+                      <td>¥980/天</td>
+                      <td>1</td>
+                      <td>31天</td>
+                      <td>¥30,380</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="flex items-center">
+                          <img src="https://img2.baidu.com/it/u=335141447,4177773304&fm=253&fmt=auto&app=138&f=JPEG?w=752&h=500" alt="推土机" class="w-10 h-10 object-cover rounded mr-3">
+                          <div>
+                            <div class="font-medium">小松推土机</div>
+                            <div class="text-xs text-gray-500">机械设备</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>D85E-SS-2</td>
+                      <td>¥1,200/天</td>
+                      <td>1</td>
+                      <td>31天</td>
+                      <td>¥37,200</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="text-right font-medium">设备租赁费用合计</td>
+                      <td colspan="2">¥112,530</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="text-right font-medium">运输费</td>
+                      <td colspan="2">¥3,600</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="text-right font-medium">押金</td>
+                      <td colspan="2">¥25,000</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="text-right font-medium">折扣</td>
+                      <td colspan="2">-¥5,730</td>
+                    </tr>
+                    <tr class="bg-blue-50">
+                      <td colspan="4" class="text-right font-medium text-blue-900">订单总计</td>
+                      <td colspan="2" class="font-bold text-blue-900">¥135,400</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            
+            <!-- 项目信息 -->
+            <h4 class="text-lg font-medium text-gray-800 mb-4">项目信息</h4>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">项目名称</h5>
+                  <p class="text-gray-800">上海浦东新区张江科技园B区建设工程</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">项目地址</h5>
+                  <p class="text-gray-800">上海市浦东新区张江高科技园区创新大道2288号</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">项目负责人</h5>
+                  <p class="text-gray-800">李工 (133-5555-5555)</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">预计使用时长</h5>
+                  <p class="text-gray-800">1个月 (可能延期)</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 合同信息 -->
+            <h4 class="text-lg font-medium text-gray-800 mb-4">合同信息</h4>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">合同编号</h5>
+                  <p class="text-gray-800">CT-2023-0758</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">签约日期</h5>
+                  <p class="text-gray-800">2023-07-13</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">合同状态</h5>
+                  <p class="text-green-600">已签署</p>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-gray-500 mb-2">合同文件</h5>
+                  <a href="#" class="text-blue-600 hover:text-blue-800 flex items-center">
+                    <i class="far fa-file-pdf mr-1"></i> 查看合同
+                  </a>
+                </div>
+              </div>
+              
+              <div class="border-t border-gray-200 pt-4 mb-4">
+                <h5 class="text-sm font-medium text-gray-600 mb-3">合同设备清单</h5>
+                
+                <div class="space-y-4">
+                  <!-- 设备1合同明细 -->
+                  <div class="bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="flex items-center mb-3">
+                      <span class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2 flex-shrink-0">
+                        <i class="fas fa-truck-monster text-yellow-600 text-sm"></i>
+                      </span>
+                      <div>
+                        <p class="font-medium text-gray-800">卡特彼勒挖掘机 CAT320</p>
+                        <p class="text-xs text-gray-500">ID: EQ001 | 租赁日期: 2023-07-15 至 2023-08-15</p>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                      <div>日租金: <span class="font-medium">¥1,450/天</span></div>
+                      <div>租期: <span class="font-medium">31天</span></div>
+                      <div>小计: <span class="font-medium">¥44,950</span></div>
+                    </div>
+                  </div>
+                  
+                  <!-- 设备2合同明细 -->
+                  <div class="bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="flex items-center mb-3">
+                      <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                        <i class="fas fa-truck text-blue-600 text-sm"></i>
+                      </span>
+                      <div>
+                        <p class="font-medium text-gray-800">徐工装载机 LW500KN</p>
+                        <p class="text-xs text-gray-500">ID: EQ015 | 租赁日期: 2023-07-15 至 2023-08-15</p>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                      <div>日租金: <span class="font-medium">¥980/天</span></div>
+                      <div>租期: <span class="font-medium">31天</span></div>
+                      <div>小计: <span class="font-medium">¥30,380</span></div>
+                    </div>
+                  </div>
+                  
+                  <!-- 设备3合同明细 -->
+                  <div class="bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="flex items-center mb-3">
+                      <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2 flex-shrink-0">
+                        <i class="fas fa-truck-pickup text-green-600 text-sm"></i>
+                      </span>
+                      <div>
+                        <p class="font-medium text-gray-800">小松推土机 D85E-SS-2</p>
+                        <p class="text-xs text-gray-500">ID: EQ022 | 租赁日期: 2023-07-15 至 2023-08-15</p>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                      <div>日租金: <span class="font-medium">¥1,200/天</span></div>
+                      <div>租期: <span class="font-medium">31天</span></div>
+                      <div>小计: <span class="font-medium">¥37,200</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex items-center p-3 bg-blue-50 rounded-lg border border-blue-100 mb-4">
+                <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                  <i class="fas fa-user-tie text-blue-600 text-sm"></i>
+                </span>
+                <div>
+                  <p class="font-medium text-blue-800">机主信息: 王建设</p>
+                  <p class="text-xs text-blue-600">联系电话: 139-1234-5678 | 机主ID: OW23487</p>
+                </div>
+              </div>
+              
+              <div class="text-right">
+                <button class="btn btn-sm bg-blue-50 text-blue-600 hover:bg-blue-100">
+                  <i class="fas fa-download mr-1"></i> 下载合同文件
+                </button>
+              </div>
+            </div>
+            
+            <!-- 备注信息 -->
+            <h4 class="text-lg font-medium text-gray-800 mb-4">备注信息</h4>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+              <p class="text-gray-800">客户要求在现场提供基础操作培训，并要求设备状态良好。由于工期紧张，可能会有加班加点使用设备的情况，请确保设备可以正常运行。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 机主信息标签页内容 -->
+        <div id="owner-tab" class="tab-content hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- 机主基本信息 -->
+            <div class="bg-white rounded-lg shadow-sm p-5">
+              <div class="flex items-center mb-4">
+                <span class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                  <i class="fas fa-user-tie text-indigo-600"></i>
+                </span>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500">机主信息</h4>
+                  <p class="text-lg font-semibold text-gray-800">王建设</p>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">机主ID</span>
+                  <span class="text-gray-800 font-medium">OW23487</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">联系电话</span>
+                  <span class="text-gray-800 font-medium">139-1234-5678</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">加入平台时间</span>
+                  <span class="text-gray-800 font-medium">2020-03-15</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">设备数量</span>
+                  <span class="text-gray-800 font-medium">12台</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">历史订单数</span>
+                  <span class="text-gray-800 font-medium">87单</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">好评率</span>
+                  <span class="text-green-600 font-medium">98%</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-100">
+                <h5 class="text-sm font-medium text-gray-500 mb-3">平台资质</h5>
+                <div class="flex flex-wrap gap-2">
+                  <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">实名认证</span>
+                  <span class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full">企业认证</span>
+                  <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-1 rounded-full">金牌机主</span>
+                  <span class="bg-purple-50 text-purple-600 text-xs px-2 py-1 rounded-full">五星服务</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 公司信息 -->
+            <div class="bg-white rounded-lg shadow-sm p-5">
+              <div class="flex items-center mb-4">
+                <span class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                  <i class="fas fa-building text-blue-600"></i>
+                </span>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500">企业信息</h4>
+                  <p class="text-lg font-semibold text-gray-800">建设工程机械有限公司</p>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">统一社会信用代码</span>
+                  <span class="text-gray-800 font-medium">91310000XXXXXXXX3B</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">法定代表人</span>
+                  <span class="text-gray-800 font-medium">王建设</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">经营范围</span>
+                  <span class="text-gray-800 font-medium">工程机械租赁、销售、维修</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">公司地址</span>
+                  <span class="text-gray-800 font-medium">上海市松江区机械园区1588号</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">成立时间</span>
+                  <span class="text-gray-800 font-medium">2015-05-18</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-100">
+                <h5 class="text-sm font-medium text-gray-500 mb-3">企业资质</h5>
+                <div class="flex flex-wrap gap-2">
+                  <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">工程机械租赁资质</span>
+                  <span class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full">AAA信用等级</span>
+                  <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-1 rounded-full">行业协会会员</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作人员信息 -->
+          <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <h4 class="text-lg font-medium text-gray-800 mb-4">操作人员信息</h4>
+            <div class="overflow-x-auto">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>姓名</th>
+                    <th>设备</th>
+                    <th>联系电话</th>
+                    <th>驾龄</th>
+                    <th>上岗证号</th>
+                    <th>专业类型</th>
+                    <th>服务评分</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                          <i class="fas fa-user text-gray-500"></i>
+                        </span>
+                        <span>刘师傅</span>
+                      </div>
+                    </td>
+                    <td>卡特彼勒挖掘机 CAT320</td>
+                    <td>138-8765-4321</td>
+                    <td>15年</td>
+                    <td>SH12345678</td>
+                    <td>挖掘机、装载机</td>
+                    <td>
+                      <div class="flex">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <span class="ml-2 text-sm">5.0</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">在岗</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                          <i class="fas fa-user text-gray-500"></i>
+                        </span>
+                        <span>张师傅</span>
+                      </div>
+                    </td>
+                    <td>徐工装载机 LW500KN</td>
+                    <td>137-5555-6666</td>
+                    <td>12年</td>
+                    <td>SH87654321</td>
+                    <td>装载机、推土机</td>
+                    <td>
+                      <div class="flex">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star-half-alt text-yellow-400"></i>
+                        <span class="ml-2 text-sm">4.5</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">在岗</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                          <i class="fas fa-user text-gray-500"></i>
+                        </span>
+                        <span>李师傅</span>
+                      </div>
+                    </td>
+                    <td>小松推土机 D85E-SS-2</td>
+                    <td>135-2222-3333</td>
+                    <td>10年</td>
+                    <td>SH98765432</td>
+                    <td>推土机、平地机</td>
+                    <td>
+                      <div class="flex">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star-half-alt text-yellow-400"></i>
+                        <span class="ml-2 text-sm">4.7</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">在岗</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 设备操作评价和记录 -->
+          <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <h4 class="text-lg font-medium text-gray-800 mb-4">机主服务评价</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <h5 class="text-sm font-medium text-gray-500 mb-2 flex items-center">
+                  <i class="fas fa-thumbs-up text-green-500 mr-2"></i> 服务优势
+                </h5>
+                <ul class="text-sm text-gray-700 space-y-1">
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>设备齐全，品牌优质</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>操作员技术过硬，经验丰富</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>服务响应快，问题解决及时</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>设备维护良好，故障率低</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <h5 class="text-sm font-medium text-gray-500 mb-2 flex items-center">
+                  <i class="fas fa-history text-blue-500 mr-2"></i> 近期服务
+                </h5>
+                <ul class="text-sm text-gray-700 space-y-1">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs text-blue-500 mt-1 mr-2"></i>
+                    <span>2023-06-10: 浦东新区建筑工地</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs text-blue-500 mt-1 mr-2"></i>
+                    <span>2023-05-25: 松江区市政工程</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs text-blue-500 mt-1 mr-2"></i>
+                    <span>2023-05-03: 闵行区隧道施工</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs text-blue-500 mt-1 mr-2"></i>
+                    <span>2023-04-15: 嘉定区道路工程</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg">
+                <h5 class="text-sm font-medium text-gray-500 mb-2 flex items-center">
+                  <i class="fas fa-certificate text-yellow-500 mr-2"></i> 设备种类
+                </h5>
+                <div class="flex flex-wrap gap-2 mt-3">
+                  <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">挖掘机</span>
+                  <span class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full">装载机</span>
+                  <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-1 rounded-full">推土机</span>
+                  <span class="bg-purple-50 text-purple-600 text-xs px-2 py-1 rounded-full">平地机</span>
+                  <span class="bg-red-50 text-red-600 text-xs px-2 py-1 rounded-full">起重机</span>
+                  <span class="bg-indigo-50 text-indigo-600 text-xs px-2 py-1 rounded-full">压路机</span>
+                  <span class="bg-pink-50 text-pink-600 text-xs px-2 py-1 rounded-full">混凝土泵车</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 联系方式和紧急联系人 -->
+          <div class="bg-white rounded-lg shadow-sm p-5">
+            <h4 class="text-lg font-medium text-gray-800 mb-4">联系方式</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h5 class="text-sm font-medium text-gray-500 mb-3">机主联系方式</h5>
+                <div class="space-y-2">
+                  <div class="flex items-start">
+                    <i class="fas fa-phone text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">王建设 (机主)</p>
+                      <p class="text-gray-500 text-sm">139-1234-5678</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-envelope text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">电子邮箱</p>
+                      <p class="text-gray-500 text-sm">wangjs@jixie.com</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">公司地址</p>
+                      <p class="text-gray-500 text-sm">上海市松江区机械园区1588号</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-wrench text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">设备维修热线</p>
+                      <p class="text-gray-500 text-sm">400-888-9999</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h5 class="text-sm font-medium text-gray-500 mb-3">操作员联系方式</h5>
+                <div class="space-y-2">
+                  <div class="flex items-start">
+                    <i class="fas fa-user-alt text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">刘师傅 (挖掘机)</p>
+                      <p class="text-gray-500 text-sm">138-8765-4321</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-user-alt text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">张师傅 (装载机)</p>
+                      <p class="text-gray-500 text-sm">137-5555-6666</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-user-alt text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">李师傅 (推土机)</p>
+                      <p class="text-gray-500 text-sm">135-2222-3333</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-user-tie text-gray-400 mt-1 mr-2 w-5 text-center"></i>
+                    <div>
+                      <p class="text-gray-800">赵经理 (现场调度)</p>
+                      <p class="text-gray-500 text-sm">136-6666-7777</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 其他标签页内容区域为空，等用户点击时再显示 -->
+        <div id="payment-tab" class="tab-content hidden">
+          <!-- 付款记录内容 -->
+        </div>
+        <div id="logs-tab" class="tab-content hidden">
+          <!-- 操作日志内容 -->
+        </div>
+        <div id="documents-tab" class="tab-content hidden">
+          <!-- 相关文档内容 -->
+        </div>
+
+        <!-- 机械/设备标签页内容 -->
+        <div id="equipment-tab" class="tab-content hidden">
+          <!-- 设备列表头部 -->
+          <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <span class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                  <i class="fas fa-user-tie text-indigo-600 text-xl"></i>
+                </span>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500">机主提供的设备</h4>
+                  <p class="text-lg font-semibold text-gray-800">王建设 - 建设工程机械有限公司</p>
+                  <p class="text-xs text-gray-500">联系电话: 139-1234-5678 | 设备总数: 3台</p>
+                </div>
+              </div>
+              <div>
+                <span class="badge badge-success">全部设备运行正常</span>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-4 mt-6">
+              <!-- 设备状态卡片1 -->
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 equipment-card cursor-pointer hover:border-blue-300 hover:shadow-md transition-all" data-equipment="excavator">
+                <div class="flex items-center mb-3">
+                  <span class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-truck-monster text-yellow-600"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">卡特彼勒挖掘机</p>
+                    <p class="text-xs text-gray-500">型号: CAT320</p>
+                  </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">设备ID:</span>
+                    <span class="text-gray-800">EQ001</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">状态:</span>
+                    <span class="text-green-600">使用中</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">操作员:</span>
+                    <span class="text-gray-800">刘师傅</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">已完成台班:</span>
+                    <span class="text-gray-800">8/31</span>
+                  </div>
+                </div>
+                <div class="mt-3 text-right">
+                  <span class="text-blue-600 text-xs hover:text-blue-800">查看详情</span>
+                </div>
+              </div>
+              
+              <!-- 设备状态卡片2 -->
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 equipment-card cursor-pointer hover:border-blue-300 hover:shadow-md transition-all" data-equipment="loader">
+                <div class="flex items-center mb-3">
+                  <span class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-truck text-blue-600"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">徐工装载机</p>
+                    <p class="text-xs text-gray-500">型号: LW500KN</p>
+                  </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">设备ID:</span>
+                    <span class="text-gray-800">EQ015</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">状态:</span>
+                    <span class="text-green-600">使用中</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">操作员:</span>
+                    <span class="text-gray-800">张师傅</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">已完成台班:</span>
+                    <span class="text-gray-800">7/31</span>
+                  </div>
+                </div>
+                <div class="mt-3 text-right">
+                  <span class="text-blue-600 text-xs hover:text-blue-800">查看详情</span>
+                </div>
+              </div>
+              
+              <!-- 设备状态卡片3 -->
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 equipment-card cursor-pointer hover:border-blue-300 hover:shadow-md transition-all" data-equipment="bulldozer">
+                <div class="flex items-center mb-3">
+                  <span class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-truck-pickup text-green-600"></i>
+                  </span>
+                  <div>
+                    <p class="font-medium text-gray-800">小松推土机</p>
+                    <p class="text-xs text-gray-500">型号: D85E-SS-2</p>
+                  </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">设备ID:</span>
+                    <span class="text-gray-800">EQ022</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">状态:</span>
+                    <span class="text-green-600">使用中</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">操作员:</span>
+                    <span class="text-gray-800">李师傅</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">已完成台班:</span>
+                    <span class="text-gray-800">6/31</span>
+                  </div>
+                </div>
+                <div class="mt-3 text-right">
+                  <span class="text-blue-600 text-xs hover:text-blue-800">查看详情</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 挖掘机详细信息 -->
+          <div id="excavator-details" class="equipment-details bg-white rounded-lg shadow-sm p-5 mb-6">
+            <div class="flex items-center mb-5">
+              <span class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                <i class="fas fa-truck-monster text-yellow-600 text-xl"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">设备详情</h4>
+                <p class="text-lg font-semibold text-gray-800">卡特彼勒挖掘机 CAT320</p>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>基本参数
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备串码</span>
+                      <span class="text-gray-800 font-medium">SHCQ20200518001</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备类型</span>
+                      <span class="text-gray-800 font-medium">挖掘机</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">品牌型号</span>
+                      <span class="text-gray-800 font-medium">卡特彼勒 CAT320</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">出厂年份</span>
+                      <span class="text-gray-800 font-medium">2020年</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">机主</span>
+                      <span class="text-gray-800 font-medium">王建设</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-cogs text-indigo-500 mr-2"></i>技术规格
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">额定功率</span>
+                      <span class="text-gray-800 font-medium">120kW</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">铲斗容量</span>
+                      <span class="text-gray-800 font-medium">1.0m³</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">整机重量</span>
+                      <span class="text-gray-800 font-medium">22.5吨</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">最大挖掘深度</span>
+                      <span class="text-gray-800 font-medium">6.7m</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">操作员</span>
+                      <span class="text-gray-800 font-medium">刘师傅</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                <p class="text-sm text-blue-800">该设备配备了最新的GPS定位系统和远程监控功能，可实时查看设备位置和工作状态，确保设备高效运行和安全使用。</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 装载机详细信息 -->
+          <div id="loader-details" class="equipment-details bg-white rounded-lg shadow-sm p-5 mb-6 hidden">
+            <div class="flex items-center mb-5">
+              <span class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i class="fas fa-truck text-blue-600 text-xl"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">设备详情</h4>
+                <p class="text-lg font-semibold text-gray-800">徐工装载机 LW500KN</p>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>基本参数
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备串码</span>
+                      <span class="text-gray-800 font-medium">SHCQ20190315002</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备类型</span>
+                      <span class="text-gray-800 font-medium">装载机</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">品牌型号</span>
+                      <span class="text-gray-800 font-medium">徐工 LW500KN</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">出厂年份</span>
+                      <span class="text-gray-800 font-medium">2019年</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">机主</span>
+                      <span class="text-gray-800 font-medium">王建设</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-cogs text-indigo-500 mr-2"></i>技术规格
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">额定功率</span>
+                      <span class="text-gray-800 font-medium">162kW</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">铲斗容量</span>
+                      <span class="text-gray-800 font-medium">3.0m³</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">整机重量</span>
+                      <span class="text-gray-800 font-medium">17.2吨</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">最大卸载高度</span>
+                      <span class="text-gray-800 font-medium">3.2m</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">操作员</span>
+                      <span class="text-gray-800 font-medium">张师傅</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                <p class="text-sm text-blue-800">徐工装载机采用环保节能型发动机，低油耗高效率，装载性能强，适用于各种物料的装卸和短距离运输作业。</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 推土机详细信息 -->
+          <div id="bulldozer-details" class="equipment-details bg-white rounded-lg shadow-sm p-5 mb-6 hidden">
+            <div class="flex items-center mb-5">
+              <span class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                <i class="fas fa-truck-pickup text-green-600 text-xl"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-medium text-gray-500">设备详情</h4>
+                <p class="text-lg font-semibold text-gray-800">小松推土机 D85E-SS-2</p>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>基本参数
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备串码</span>
+                      <span class="text-gray-800 font-medium">SHCQ20210628003</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">设备类型</span>
+                      <span class="text-gray-800 font-medium">推土机</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">品牌型号</span>
+                      <span class="text-gray-800 font-medium">小松 D85E-SS-2</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">出厂年份</span>
+                      <span class="text-gray-800 font-medium">2021年</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">机主</span>
+                      <span class="text-gray-800 font-medium">王建设</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                  <h5 class="text-sm font-medium text-gray-600 mb-3 flex items-center">
+                    <i class="fas fa-cogs text-indigo-500 mr-2"></i>技术规格
+                  </h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">额定功率</span>
+                      <span class="text-gray-800 font-medium">196kW</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">铲刀宽度</span>
+                      <span class="text-gray-800 font-medium">3.7m</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">整机重量</span>
+                      <span class="text-gray-800 font-medium">28.6吨</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">最大推土量</span>
+                      <span class="text-gray-800 font-medium">11.0m³</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-500">操作员</span>
+                      <span class="text-gray-800 font-medium">李师傅</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                <p class="text-sm text-blue-800">小松推土机采用新型智能控制系统，可根据工况自动调整发动机输出功率和液压系统工作压力，具有良好的推土性能和燃油经济性。</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 台班信息 -->
+          <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-800">台班信息</h4>
+              <div class="flex items-center">
+                <span class="badge badge-success mr-2">已完成: 8天</span>
+                <span class="badge badge-warning">剩余: 23天</span>
+              </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>日期</th>
+                    <th>设备</th>
+                    <th>工时</th>
+                    <th>施工地点</th>
+                    <th>施工内容</th>
+                    <th>操作人员</th>
+                    <th>燃油消耗</th>
+                    <th>客户确认</th>
+                    <th>台班状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2023-07-15</td>
+                    <td>挖掘机</td>
+                    <td>8小时</td>
+                    <td>A区地基</td>
+                    <td>土方开挖</td>
+                    <td>刘师傅</td>
+                    <td>56L</td>
+                    <td><i class="fas fa-check-circle text-green-500"></i> 张建国</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                  </tr>
+                  <tr>
+                    <td>2023-07-15</td>
+                    <td>装载机</td>
+                    <td>7小时</td>
+                    <td>A区地基</td>
+                    <td>土方运输</td>
+                    <td>张师傅</td>
+                    <td>48L</td>
+                    <td><i class="fas fa-check-circle text-green-500"></i> 张建国</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                  </tr>
+                  <tr>
+                    <td>2023-07-15</td>
+                    <td>推土机</td>
+                    <td>6小时</td>
+                    <td>A区地基</td>
+                    <td>场地平整</td>
+                    <td>李师傅</td>
+                    <td>42L</td>
+                    <td><i class="fas fa-check-circle text-green-500"></i> 张建国</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                  </tr>
+                  <tr>
+                    <td>2023-07-16</td>
+                    <td>挖掘机</td>
+                    <td>9小时</td>
+                    <td>A区地基</td>
+                    <td>土方平整</td>
+                    <td>刘师傅</td>
+                    <td>62L</td>
+                    <td><i class="fas fa-check-circle text-green-500"></i> 张建国</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                  </tr>
+                  <tr>
+                    <td>2023-07-16</td>
+                    <td>装载机</td>
+                    <td>8小时</td>
+                    <td>A区地基</td>
+                    <td>材料运输</td>
+                    <td>张师傅</td>
+                    <td>50L</td>
+                    <td><i class="fas fa-check-circle text-green-500"></i> 张建国</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="flex justify-between items-center mt-4">
+              <div class="text-sm text-gray-500">
+                显示第 1-5 条，共 21 条记录
+              </div>
+              <div class="flex space-x-2">
+                <button class="btn btn-sm bg-gray-100 text-gray-700">上一页</button>
+                <button class="btn btn-sm bg-blue-600 text-white">1</button>
+                <button class="btn btn-sm bg-gray-100 text-gray-700">2</button>
+                <button class="btn btn-sm bg-gray-100 text-gray-700">3</button>
+                <button class="btn btn-sm bg-gray-100 text-gray-700">下一页</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 设备执行情况和审核确认 -->
+          <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <h4 class="text-lg font-medium text-gray-800 mb-4">设备执行情况</h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-chart-pie text-blue-600"></i>
+                  </div>
+                  <div>
+                    <h5 class="text-sm font-medium text-gray-500">平均工作效率</h5>
+                    <p class="text-lg font-semibold text-gray-800">93%</p>
+                  </div>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full mb-2">
+                  <div class="h-2 bg-blue-500 rounded-full" style="width: 93%"></div>
+                </div>
+                <p class="text-xs text-gray-500">相比行业平均值高出 10%</p>
+              </div>
+              
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-check-circle text-green-600"></i>
+                  </div>
+                  <div>
+                    <h5 class="text-sm font-medium text-gray-500">任务完成率</h5>
+                    <p class="text-lg font-semibold text-gray-800">100%</p>
+                  </div>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full mb-2">
+                  <div class="h-2 bg-green-500 rounded-full" style="width: 100%"></div>
+                </div>
+                <p class="text-xs text-gray-500">已完成全部计划任务</p>
+              </div>
+              
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-wrench text-purple-600"></i>
+                  </div>
+                  <div>
+                    <h5 class="text-sm font-medium text-gray-500">设备状态</h5>
+                    <p class="text-lg font-semibold text-gray-800">良好</p>
+                  </div>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full mb-2">
+                  <div class="h-2 bg-purple-500 rounded-full" style="width: 90%"></div>
+                </div>
+                <p class="text-xs text-gray-500">无重大故障，正常维护中</p>
+              </div>
+            </div>
+            
+            <!-- 客户审核确认 -->
+            <h4 class="text-lg font-medium text-gray-800 mb-4">客户审核确认</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <h5 class="text-sm font-medium text-gray-600 mb-3">日常作业确认</h5>
+                <div class="space-y-3">
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">已确认台班</span>
+                    <span class="text-gray-800 font-medium">21 / 21 天</span>
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">确认人</span>
+                    <span class="text-gray-800 font-medium">张建国 (项目负责人)</span>
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">最近确认时间</span>
+                    <span class="text-gray-800 font-medium">2023-07-19 18:05</span>
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">确认方式</span>
+                    <span class="text-gray-800 font-medium">移动端APP签名确认</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <h5 class="text-sm font-medium text-gray-600 mb-3">评价与反馈</h5>
+                <div class="flex mb-3">
+                  <div class="text-sm mr-2">设备评分：</div>
+                  <div class="flex">
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                    <span class="ml-2 text-sm font-medium">4.5/5.0</span>
+                  </div>
+                </div>
+                <div class="flex mb-3">
+                  <div class="text-sm mr-2">操作员评分：</div>
+                  <div class="flex">
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <span class="ml-2 text-sm font-medium">5.0/5.0</span>
+                  </div>
+                </div>
+                <div class="text-sm text-gray-500 mb-2">客户反馈：</div>
+                <p class="text-sm text-gray-700 bg-white p-3 rounded border border-gray-200">
+                  "设备运行良好，操作员工作态度认真负责，施工效率高。对王建设提供的多台机械设备质量和服务都很满意，希望后续能继续合作，推荐给其他项目部使用。"
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 hidden" id="sidebar-overlay"></div>
+  
+  <!-- 移动端侧边栏 -->
+  <div class="md:hidden fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-30 transform -translate-x-full transition-transform duration-300" id="mobile-sidebar">
+    <!-- 侧边栏内容 (与主侧边栏相同) -->
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script>
+    // 设置页面标题
+    setPageTitle('订单详情');
+    
+    // 设置活动菜单项
+    setActiveMenuItem('menu-orders');
+    
+    // 获取用户信息
+    const username = localStorage.getItem('username') || '管理员';
+    const userNameElements = document.querySelectorAll('.user-name');
+    userNameElements.forEach(el => {
+      el.textContent = username;
+    });
+    
+    // 处理移动端侧边栏
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    
+    sidebarToggle.addEventListener('click', () => {
+      mobileSidebar.classList.toggle('-translate-x-full');
+      sidebarOverlay.classList.toggle('hidden');
+    });
+    
+    sidebarOverlay.addEventListener('click', () => {
+      mobileSidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    });
+    
+    // 下拉菜单
+    const dropdownButton = document.querySelector('.dropdown button');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    
+    if (dropdownButton && dropdownMenu) {
+      dropdownButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('hidden');
+      });
+      
+      document.addEventListener('click', () => {
+        if (!dropdownMenu.classList.contains('hidden')) {
+          dropdownMenu.classList.add('hidden');
+        }
+      });
+    }
+    
+    // 标签页切换
+    const tabButtons = document.querySelectorAll('.border-b button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        // 移除所有标签的活动状态
+        tabButtons.forEach(btn => {
+          btn.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+          btn.classList.add('text-gray-500');
+        });
+        
+        // 设置当前标签的活动状态
+        button.classList.remove('text-gray-500');
+        button.classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+        
+        // 隐藏所有内容区域
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+        
+        // 显示对应的内容区域
+        const tabIds = ['details-tab', 'payment-tab', 'owner-tab', 'equipment-tab', 'logs-tab', 'documents-tab'];
+        document.getElementById(tabIds[index]).classList.remove('hidden');
+      });
+    });
+    
+    // 设备卡片点击切换详情内容
+    document.addEventListener('DOMContentLoaded', function() {
+      const equipmentCards = document.querySelectorAll('.equipment-card');
+      const equipmentDetails = document.querySelectorAll('.equipment-details');
+      
+      equipmentCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const equipmentType = this.getAttribute('data-equipment');
+          
+          // 移除所有卡片的选中状态
+          equipmentCards.forEach(c => {
+            c.classList.remove('border-blue-500', 'bg-blue-50');
+          });
+          
+          // 添加当前卡片的选中状态
+          this.classList.add('border-blue-500', 'bg-blue-50');
+          
+          // 隐藏所有设备详情
+          equipmentDetails.forEach(detail => {
+            detail.classList.add('hidden');
+          });
+          
+          // 显示对应设备的详情
+          document.getElementById(`${equipmentType}-details`).classList.remove('hidden');
+        });
+      });
+      
+      // 默认选中第一个设备卡片
+      if (equipmentCards.length > 0) {
+        equipmentCards[0].classList.add('border-blue-500', 'bg-blue-50');
+      }
+    });
+  </script>
+</body>
+</html> 

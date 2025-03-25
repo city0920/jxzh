@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订单管理 - 机械租赁平台管理后台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- 侧边栏 -->
+    <aside class="w-64 hidden md:block">
+      <div class="sidebar h-full flex flex-col">
+        <!-- 侧边栏头部 -->
+        <div class="p-4 flex items-center border-b border-gray-700">
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+            <p class="text-xs text-gray-400">管理后台</p>
+          </div>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="flex-1 py-4 overflow-y-auto">
+          <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+            <i class="fas fa-home"></i>
+            <span>仪表盘</span>
+          </a>
+          <a href="users.html" id="menu-users" class="sidebar-link">
+            <i class="fas fa-users"></i>
+            <span>用户管理</span>
+          </a>
+          <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+            <i class="fas fa-truck-monster"></i>
+            <span>设备管理</span>
+          </a>
+          <a href="orders.html" id="menu-orders" class="sidebar-link">
+            <i class="fas fa-clipboard-list"></i>
+            <span>订单管理</span>
+          </a>
+          <a href="finance.html" id="menu-finance" class="sidebar-link">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>财务管理</span>
+          </a>
+          <a href="reports.html" id="menu-reports" class="sidebar-link">
+            <i class="fas fa-chart-line"></i>
+            <span>报表分析</span>
+          </a>
+          <a href="settings.html" id="menu-settings" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            <span>系统设置</span>
+          </a>
+        </nav>
+        
+        <!-- 侧边栏底部 -->
+        <div class="p-4 border-t border-gray-700">
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+              <i class="fas fa-user text-gray-700"></i>
+            </div>
+            <div>
+              <p class="text-sm text-white font-medium user-name">管理员</p>
+              <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- 顶部导航 -->
+      <header class="bg-white shadow-sm top-header flex items-center px-6">
+        <button class="md:hidden mr-6 flex items-center justify-center" id="sidebar-toggle">
+          <i class="fas fa-bars text-gray-500"></i>
+        </button>
+        
+        <div class="flex-1">
+          <h2 class="text-lg font-medium text-gray-800" id="page-title">订单管理</h2>
+        </div>
+        
+        <div class="flex items-center">
+          <!-- 通知图标 -->
+          <div class="relative mr-4 flex items-center">
+            <button class="text-gray-500 hover:text-gray-700 flex items-center justify-center">
+              <i class="fas fa-bell"></i>
+              <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+          
+          <!-- 用户信息下拉菜单（移动端隐藏） -->
+          <div class="hidden md:flex items-center relative">
+            <button class="flex items-center text-gray-700">
+              <span class="mr-2 text-sm font-medium user-name">管理员</span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- 页面内容 -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- 页面头部 -->
+        <div class="flex flex-wrap items-center justify-between mb-6">
+          <div class="mb-4 md:mb-0">
+            <h3 class="text-xl font-medium text-gray-800">订单列表</h3>
+            <p class="text-sm text-gray-500">管理所有租赁订单</p>
+          </div>
+          
+          <div class="flex flex-wrap items-center">
+            <button class="btn btn-primary mr-3" id="add-order-btn">
+              <i class="fas fa-plus mr-2"></i> 新建订单
+            </button>
+            
+            <div class="relative flex items-center">
+              <span class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+              </span>
+              <input type="text" placeholder="搜索订单..." class="form-control py-2 pl-10 pr-4">
+            </div>
+          </div>
+        </div>
+        
+        <!-- 筛选选项 -->
+        <div class="bg-white p-3 rounded-lg shadow-sm mb-6">
+          <div class="flex items-center">
+            <span class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+              <i class="fas fa-filter text-blue-600 text-sm"></i>
+            </span>
+            <div class="mr-auto">
+              <h4 class="text-sm font-medium text-gray-800">订单筛选</h4>
+              <p class="text-xs text-gray-500">根据条件筛选订单</p>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+              <button class="btn btn-primary h-8 w-24 flex items-center justify-center">
+                <i class="fas fa-filter mr-1"></i> 筛选
+              </button>
+              <button class="btn h-8 w-8 text-gray-600 bg-gray-100 flex items-center justify-center">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-3 mt-3">
+            <div>
+              <label class="form-label text-xs mb-1 block text-gray-600">订单状态</label>
+              <select class="form-control py-1 text-sm">
+                <option value="">全部状态</option>
+                <option value="pending">待审核</option>
+                <option value="confirmed">已确认</option>
+                <option value="in_progress">进行中</option>
+                <option value="completed">已完成</option>
+                <option value="cancelled">已取消</option>
+                <option value="overdue">已逾期</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="form-label text-xs mb-1 block text-gray-600">设备类型</label>
+              <select class="form-control py-1 text-sm">
+                <option value="">全部类型</option>
+                <option value="excavator">挖掘机</option>
+                <option value="loader">装载机</option>
+                <option value="bulldozer">推土机</option>
+                <option value="crane">起重机</option>
+                <option value="roller">压路机</option>
+                <option value="concrete">混凝土设备</option>
+                <option value="other">其他设备</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="form-label text-xs mb-1 block text-gray-600">客户类型</label>
+              <select class="form-control py-1 text-sm">
+                <option value="">全部客户</option>
+                <option value="company">企业客户</option>
+                <option value="individual">个人客户</option>
+                <option value="government">政府单位</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="form-label text-xs mb-1 block text-gray-600">日期范围</label>
+              <div class="flex space-x-1">
+                <input type="date" class="form-control py-1 w-1/2 text-sm">
+                <input type="date" class="form-control py-1 w-1/2 text-sm">
+              </div>
+            </div>
+            
+            <div class="hidden xl:block">
+              <label class="form-label text-xs mb-1 block text-gray-600">高级选项</label>
+              <button class="form-control py-1 text-sm text-left text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-sliders-h mr-1"></i> 更多筛选条件
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 订单表格 -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th class="w-16">
+                    <input type="checkbox" class="form-checkbox">
+                  </th>
+                  <th>订单编号</th>
+                  <th>客户名称</th>
+                  <th>设备信息</th>
+                  <th>机主名称</th>
+                  <th>开始日期</th>
+                  <th>结束日期</th>
+                  <th>订单金额</th>
+                  <th>状态</th>
+                  <th class="text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1058</div>
+                    <div class="text-xs text-gray-500">2023-07-15</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-blue-600 font-medium">SJ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">上海建工集团</div>
+                        <div class="text-xs text-gray-500">企业客户</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>卡特彼勒挖掘机 CAT320</div>
+                    <div class="text-xs text-gray-500">ID: EQ001</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-orange-600 font-medium">WJ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">王建设</div>
+                        <div class="text-xs text-gray-500">金牌机主</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-07-15</td>
+                  <td>2023-08-15</td>
+                  <td>¥45,800</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1057</div>
+                    <div class="text-xs text-gray-500">2023-07-10</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-red-600 font-medium">ZT</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">中铁十四局</div>
+                        <div class="text-xs text-gray-500">企业客户</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>徐工起重机 XCT25L5</div>
+                    <div class="text-xs text-gray-500">ID: EQ002</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-blue-600 font-medium">ZM</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">张明</div>
+                        <div class="text-xs text-gray-500">设备专家</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-07-10</td>
+                  <td>2023-08-10</td>
+                  <td>¥68,500</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1056</div>
+                    <div class="text-xs text-gray-500">2023-07-05</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-green-600 font-medium">BJ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">北京城建集团</div>
+                        <div class="text-xs text-gray-500">企业客户</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>三一重工泵车 SYM5419THB</div>
+                    <div class="text-xs text-gray-500">ID: EQ003</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-indigo-600 font-medium">LJ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">李军</div>
+                        <div class="text-xs text-gray-500">五星机主</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-07-05</td>
+                  <td>2023-07-20</td>
+                  <td>¥32,600</td>
+                  <td><span class="badge badge-warning">待付款</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1055</div>
+                    <div class="text-xs text-gray-500">2023-07-01</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-purple-600 font-medium">GZ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">广州建筑有限公司</div>
+                        <div class="text-xs text-gray-500">企业客户</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>小松推土机 D85E-SS-2</div>
+                    <div class="text-xs text-gray-500">ID: EQ004</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-red-600 font-medium">CQ</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">陈强</div>
+                        <div class="text-xs text-gray-500">资深操作员</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-07-01</td>
+                  <td>2023-07-31</td>
+                  <td>¥38,900</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1054</div>
+                    <div class="text-xs text-gray-500">2023-06-25</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-yellow-600 font-medium">SD</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">山东高速集团</div>
+                        <div class="text-xs text-gray-500">企业客户</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>利勃海尔塔吊 280 EC-H</div>
+                    <div class="text-xs text-gray-500">ID: EQ005</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-green-600 font-medium">DM</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">邓明</div>
+                        <div class="text-xs text-gray-500">专业塔吊</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-06-25</td>
+                  <td>2023-07-25</td>
+                  <td>¥78,200</td>
+                  <td><span class="badge badge-danger">已逾期</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="form-checkbox">
+                  </td>
+                  <td>
+                    <div class="font-medium text-gray-800">#ORD-2023-1053</div>
+                    <div class="text-xs text-gray-500">2023-06-20</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-gray-600 font-medium">XA</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">西安市政工程处</div>
+                        <div class="text-xs text-gray-500">政府单位</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>中联重科装载机 ZL50GN</div>
+                    <div class="text-xs text-gray-500">ID: EQ007</div>
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="text-teal-600 font-medium">HX</span>
+                      </div>
+                      <div>
+                        <div class="font-medium">黄新</div>
+                        <div class="text-xs text-gray-500">优质服务</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>2023-06-20</td>
+                  <td>2023-06-30</td>
+                  <td>¥26,000</td>
+                  <td><span class="badge badge-info">已完成</span></td>
+                  <td class="text-right">
+                    <a href="order-detail.html" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <button class="btn btn-sm bg-gray-50 text-gray-600">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- 分页 -->
+          <div class="flex items-center justify-between p-4 border-t border-gray-200">
+            <div class="text-sm text-gray-600">
+              显示 <span class="font-medium">1</span> 到 <span class="font-medium">6</span> 条，共 <span class="font-medium">42</span> 条
+            </div>
+            
+            <div class="flex items-center space-x-2">
+              <button class="px-3 py-1 rounded border text-sm text-gray-600" disabled>
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="px-3 py-1 rounded border bg-blue-600 text-white text-sm">1</button>
+              <button class="px-3 py-1 rounded border text-sm text-gray-600">2</button>
+              <button class="px-3 py-1 rounded border text-sm text-gray-600">3</button>
+              <button class="px-3 py-1 rounded border text-sm text-gray-600">4</button>
+              <button class="px-3 py-1 rounded border text-sm text-gray-600">5</button>
+              <button class="px-3 py-1 rounded border text-sm text-gray-600">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 hidden" id="sidebar-overlay"></div>
+  
+  <!-- 移动端侧边栏 -->
+  <div class="md:hidden fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-30 transform -translate-x-full transition-transform duration-300" id="mobile-sidebar">
+    <!-- 侧边栏内容 (与主侧边栏相同) -->
+  </div>
+  
+  <!-- 订单详情弹窗 -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="order-detail-modal">
+    <div class="bg-white rounded-lg w-full max-w-3xl max-h-screen overflow-y-auto">
+      <div class="flex items-center justify-between p-4 border-b">
+        <h3 class="text-lg font-medium">订单详情</h3>
+        <button class="text-gray-500 hover:text-gray-700" id="close-detail-modal-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="p-6">
+        <!-- 订单详情内容将在JS中动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script>
+    // 设置页面标题
+    setPageTitle('订单管理');
+    
+    // 设置活动菜单项
+    setActiveMenuItem('menu-orders');
+    
+    // 获取用户信息
+    const username = localStorage.getItem('username') || '管理员';
+    const userNameElements = document.querySelectorAll('.user-name');
+    userNameElements.forEach(el => {
+      el.textContent = username;
+    });
+    
+    // 处理移动端侧边栏
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    
+    sidebarToggle.addEventListener('click', () => {
+      mobileSidebar.classList.toggle('-translate-x-full');
+      sidebarOverlay.classList.toggle('hidden');
+    });
+    
+    sidebarOverlay.addEventListener('click', () => {
+      mobileSidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    });
+    
+    // 新建订单按钮事件
+    document.getElementById('add-order-btn').addEventListener('click', () => {
+      alert('新建订单功能将在后续开发中实现');
+    });
+    
+    /* 注释掉弹窗逻辑，因为现在使用单独的详情页面
+    // 查看订单详情
+    const viewButtons = document.querySelectorAll('.btn-sm.bg-blue-50');
+    const orderDetailModal = document.getElementById('order-detail-modal');
+    const closeDetailModalBtn = document.getElementById('close-detail-modal-btn');
+    
+    viewButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        orderDetailModal.classList.remove('hidden');
+      });
+    });
+    
+    closeDetailModalBtn.addEventListener('click', () => {
+      orderDetailModal.classList.add('hidden');
+    });
+    */
+  </script>
+</body>
+</html> 

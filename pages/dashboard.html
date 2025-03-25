@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仪表盘 - 机械租赁平台管理后台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- 侧边栏 -->
+    <aside class="w-64 hidden md:block">
+      <div class="sidebar h-full flex flex-col">
+        <!-- 侧边栏头部 -->
+        <div class="p-4 flex items-center border-b border-gray-700">
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+            <p class="text-xs text-gray-400">管理后台</p>
+          </div>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="flex-1 py-4 overflow-y-auto">
+          <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+            <i class="fas fa-home"></i>
+            <span>仪表盘</span>
+          </a>
+          <a href="users.html" id="menu-users" class="sidebar-link">
+            <i class="fas fa-users"></i>
+            <span>用户管理</span>
+          </a>
+          <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+            <i class="fas fa-truck-monster"></i>
+            <span>设备管理</span>
+          </a>
+          <a href="orders.html" id="menu-orders" class="sidebar-link">
+            <i class="fas fa-clipboard-list"></i>
+            <span>订单管理</span>
+          </a>
+          <a href="finance.html" id="menu-finance" class="sidebar-link">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>财务管理</span>
+          </a>
+          <a href="reports.html" id="menu-reports" class="sidebar-link">
+            <i class="fas fa-chart-line"></i>
+            <span>报表分析</span>
+          </a>
+          <a href="settings.html" id="menu-settings" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            <span>系统设置</span>
+          </a>
+        </nav>
+        
+        <!-- 侧边栏底部 -->
+        <div class="p-4 border-t border-gray-700">
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+              <i class="fas fa-user text-gray-700"></i>
+            </div>
+            <div>
+              <p class="text-sm text-white font-medium user-name">管理员</p>
+              <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- 顶部导航 -->
+      <header class="bg-white shadow-sm top-header flex items-center px-6">
+        <button class="md:hidden mr-6" id="sidebar-toggle">
+          <i class="fas fa-bars text-gray-500"></i>
+        </button>
+        
+        <div class="flex-1">
+          <h2 class="text-lg font-medium text-gray-800" id="page-title">仪表盘</h2>
+        </div>
+        
+        <div class="flex items-center">
+          <!-- 通知图标 -->
+          <div class="relative mr-4">
+            <button class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-bell"></i>
+              <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+          
+          <!-- 用户信息下拉菜单（移动端隐藏） -->
+          <div class="hidden md:block relative">
+            <button class="flex items-center text-gray-700">
+              <span class="mr-2 text-sm font-medium user-name">管理员</span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- 页面内容 -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- 日期选择和过滤 -->
+        <div class="flex flex-wrap items-center justify-between mb-6">
+          <div class="mb-4 md:mb-0">
+            <h3 class="text-xl font-medium text-gray-800">欢迎回来，<span class="user-name">管理员</span></h3>
+            <p class="text-sm text-gray-500">这是您的管理后台概览</p>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="relative mr-3">
+              <select class="form-control text-sm pr-8 py-2">
+                <option>过去 7 天</option>
+                <option>过去 30 天</option>
+                <option>过去 90 天</option>
+                <option>今年</option>
+              </select>
+              <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary btn-sm">
+              <i class="fas fa-sync-alt mr-1"></i> 刷新
+            </button>
+          </div>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <!-- 卡片 1：设备总数 -->
+          <div class="card">
+            <div class="stat-card">
+              <div class="stat-icon bg-blue-100 text-blue-600">
+                <i class="fas fa-truck-monster"></i>
+              </div>
+              <div class="stat-content">
+                <h4>248</h4>
+                <span>设备总数</span>
+              </div>
+            </div>
+            <div class="mt-4 text-sm">
+              <span class="text-green-600">
+                <i class="fas fa-arrow-up"></i> 4.5%
+              </span>
+              <span class="text-gray-500 ml-1">较上月</span>
+            </div>
+          </div>
+          
+          <!-- 卡片 2：活跃订单 -->
+          <div class="card">
+            <div class="stat-card">
+              <div class="stat-icon bg-green-100 text-green-600">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+              <div class="stat-content">
+                <h4>64</h4>
+                <span>活跃订单</span>
+              </div>
+            </div>
+            <div class="mt-4 text-sm">
+              <span class="text-green-600">
+                <i class="fas fa-arrow-up"></i> 12.7%
+              </span>
+              <span class="text-gray-500 ml-1">较上周</span>
+            </div>
+          </div>
+          
+          <!-- 卡片 3：注册用户 -->
+          <div class="card">
+            <div class="stat-card">
+              <div class="stat-icon bg-purple-100 text-purple-600">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-content">
+                <h4>1,286</h4>
+                <span>注册用户</span>
+              </div>
+            </div>
+            <div class="mt-4 text-sm">
+              <span class="text-green-600">
+                <i class="fas fa-arrow-up"></i> 8.1%
+              </span>
+              <span class="text-gray-500 ml-1">较上月</span>
+            </div>
+          </div>
+          
+          <!-- 卡片 4：收入总额 -->
+          <div class="card">
+            <div class="stat-card">
+              <div class="stat-icon bg-yellow-100 text-yellow-600">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+              <div class="stat-content">
+                <h4>¥486,426</h4>
+                <span>收入总额</span>
+              </div>
+            </div>
+            <div class="mt-4 text-sm">
+              <span class="text-red-600">
+                <i class="fas fa-arrow-down"></i> 2.3%
+              </span>
+              <span class="text-gray-500 ml-1">较上月</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 图表和数据分析 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <!-- 收入趋势图表 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-800">收入趋势</h4>
+              <div class="text-xs text-gray-500">过去 30 天</div>
+            </div>
+            <div class="h-64">
+              <canvas id="revenue-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- 设备类型分布 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-800">设备类型分布</h4>
+              <div class="text-xs text-gray-500">按类型统计</div>
+            </div>
+            <div class="h-64">
+              <canvas id="equipment-chart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 最近订单 -->
+        <div class="card mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-lg font-medium text-gray-800">最近订单</h4>
+            <a href="orders.html" class="text-sm text-blue-600 hover:underline">查看全部</a>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>订单编号</th>
+                  <th>客户名称</th>
+                  <th>设备信息</th>
+                  <th>开始日期</th>
+                  <th>结束日期</th>
+                  <th>金额</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#ORD-2023-1058</td>
+                  <td>上海建工集团</td>
+                  <td>卡特彼勒挖掘机 CAT320</td>
+                  <td>2023-07-15</td>
+                  <td>2023-08-15</td>
+                  <td>¥45,800</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                </tr>
+                <tr>
+                  <td>#ORD-2023-1057</td>
+                  <td>中铁十四局</td>
+                  <td>徐工起重机 XCT25L5</td>
+                  <td>2023-07-10</td>
+                  <td>2023-08-10</td>
+                  <td>¥68,500</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                </tr>
+                <tr>
+                  <td>#ORD-2023-1056</td>
+                  <td>北京城建集团</td>
+                  <td>三一重工泵车 SYM5419THB</td>
+                  <td>2023-07-05</td>
+                  <td>2023-07-20</td>
+                  <td>¥32,600</td>
+                  <td><span class="badge badge-warning">待付款</span></td>
+                </tr>
+                <tr>
+                  <td>#ORD-2023-1055</td>
+                  <td>广州建筑有限公司</td>
+                  <td>小松推土机 D85E-SS-2</td>
+                  <td>2023-07-01</td>
+                  <td>2023-07-31</td>
+                  <td>¥38,900</td>
+                  <td><span class="badge badge-success">进行中</span></td>
+                </tr>
+                <tr>
+                  <td>#ORD-2023-1054</td>
+                  <td>山东高速集团</td>
+                  <td>利勃海尔塔吊 280 EC-H</td>
+                  <td>2023-06-25</td>
+                  <td>2023-07-25</td>
+                  <td>¥78,200</td>
+                  <td><span class="badge badge-danger">已逾期</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- 最近活动 -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-lg font-medium text-gray-800">最近活动</h4>
+            <a href="#" class="text-sm text-blue-600 hover:underline">查看全部</a>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <i class="fas fa-plus text-blue-600"></i>
+              </div>
+              <div>
+                <p class="text-sm">
+                  <span class="font-medium">新设备添加</span>
+                  <span class="text-gray-500"> - 三一重工挖掘机 SY215C-10HD 已添加到设备库</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">2023-07-20 14:30</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                <i class="fas fa-check text-green-600"></i>
+              </div>
+              <div>
+                <p class="text-sm">
+                  <span class="font-medium">订单状态更新</span>
+                  <span class="text-gray-500"> - 订单 #ORD-2023-1053 已完成</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">2023-07-20 11:15</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                <i class="fas fa-user text-yellow-600"></i>
+              </div>
+              <div>
+                <p class="text-sm">
+                  <span class="font-medium">新用户注册</span>
+                  <span class="text-gray-500"> - 武汉市政工程有限公司已注册为企业用户</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">2023-07-20 09:45</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
+              </div>
+              <div>
+                <p class="text-sm">
+                  <span class="font-medium">设备维护提醒</span>
+                  <span class="text-gray-500"> - 徐工装载机 LW600KN 需要例行维护</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">2023-07-19 16:20</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                <i class="fas fa-money-bill-wave text-purple-600"></i>
+              </div>
+              <div>
+                <p class="text-sm">
+                  <span class="font-medium">收到付款</span>
+                  <span class="text-gray-500"> - 订单 #ORD-2023-1052 收到付款 ¥56,800</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">2023-07-19 14:05</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 hidden" id="sidebar-overlay"></div>
+  
+  <!-- 移动端侧边栏 -->
+  <div class="md:hidden fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-30 transform -translate-x-full transition-transform duration-300" id="mobile-sidebar">
+    <div class="sidebar h-full flex flex-col">
+      <!-- 侧边栏内容（与桌面版相同） -->
+      <div class="p-4 flex items-center border-b border-gray-700">
+        <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+          <p class="text-xs text-gray-400">管理后台</p>
+        </div>
+      </div>
+      
+      <!-- 导航菜单 -->
+      <nav class="flex-1 py-4 overflow-y-auto">
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="fas fa-home"></i>
+          <span>仪表盘</span>
+        </a>
+        <a href="users.html" class="sidebar-link">
+          <i class="fas fa-users"></i>
+          <span>用户管理</span>
+        </a>
+        <a href="equipment1.html" class="sidebar-link">
+          <i class="fas fa-truck-monster"></i>
+          <span>设备管理</span>
+        </a>
+        <a href="orders.html" class="sidebar-link">
+          <i class="fas fa-clipboard-list"></i>
+          <span>订单管理</span>
+        </a>
+        <a href="finance.html" class="sidebar-link">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>财务管理</span>
+        </a>
+        <a href="reports.html" class="sidebar-link">
+          <i class="fas fa-chart-line"></i>
+          <span>报表分析</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="fas fa-cog"></i>
+          <span>系统设置</span>
+        </a>
+      </nav>
+      
+      <!-- 侧边栏底部 -->
+      <div class="p-4 border-t border-gray-700">
+        <div class="flex items-center">
+          <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+            <i class="fas fa-user text-gray-700"></i>
+          </div>
+          <div>
+            <p class="text-sm text-white font-medium user-name">管理员</p>
+            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+  <script>
+    // 设置页面标题
+    setPageTitle('仪表盘');
+    document.getElementById('page-title').textContent = '仪表盘';
+    
+    // 获取用户信息
+    const username = localStorage.getItem('username') || '管理员';
+    const userNameElements = document.querySelectorAll('.user-name');
+    userNameElements.forEach(el => {
+      el.textContent = username;
+    });
+    
+    // 设置活动菜单项
+    setActiveMenuItem('menu-dashboard');
+    
+    // 处理移动端侧边栏
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    
+    sidebarToggle.addEventListener('click', () => {
+      mobileSidebar.classList.toggle('-translate-x-full');
+      sidebarOverlay.classList.toggle('hidden');
+    });
+    
+    sidebarOverlay.addEventListener('click', () => {
+      mobileSidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    });
+    
+    // 创建收入趋势图表
+    const revenueChartCtx = document.getElementById('revenue-chart').getContext('2d');
+    const revenueChart = new Chart(revenueChartCtx, {
+      type: 'line',
+      data: {
+        labels: ['6/20', '6/25', '6/30', '7/5', '7/10', '7/15', '7/20'],
+        datasets: [{
+          label: '收入（元）',
+          data: [48000, 59000, 55000, 61000, 58000, 65000, 70000],
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderColor: 'rgba(59, 130, 246, 1)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            grid: {
+              display: true,
+              drawBorder: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+    
+    // 创建设备类型分布图表
+    const equipmentChartCtx = document.getElementById('equipment-chart').getContext('2d');
+    const equipmentChart = new Chart(equipmentChartCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['挖掘机', '起重机', '推土机', '装载机', '压路机', '混凝土设备', '其他'],
+        datasets: [{
+          data: [35, 20, 15, 12, 8, 7, 3],
+          backgroundColor: [
+            'rgba(59, 130, 246, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(239, 68, 68, 0.8)',
+            'rgba(139, 92, 246, 0.8)',
+            'rgba(236, 72, 153, 0.8)',
+            'rgba(107, 114, 128, 0.8)'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 12,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        cutout: '65%'
+      }
+    });
+  </script>
+</body>
+</html> 

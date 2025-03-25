@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 机械租赁平台管理后台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      background-color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+    }
+    
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .login-logo svg {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+    }
+    
+    .login-form {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+    }
+    
+    .login-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-input {
+      position: relative;
+    }
+    
+    .form-input input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    .form-input input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+    
+    .form-input i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+    }
+    
+    .form-footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-logo">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="40" fill="#3b82f6" opacity="0.1"/>
+        <path d="M27.5 30H52.5C53.9 30 55 31.1 55 32.5V47.5C55 48.9 53.9 50 52.5 50H27.5C26.1 50 25 48.9 25 47.5V32.5C25 31.1 26.1 30 27.5 30Z" fill="#3b82f6"/>
+        <path d="M25 40H55" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="30" cy="35" r="2" fill="white"/>
+        <circle cx="35" cy="35" r="2" fill="white"/>
+        <circle cx="30" cy="45" r="2" fill="white"/>
+        <circle cx="35" cy="45" r="2" fill="white"/>
+        <path d="M45 35H50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M45 45H50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M25 50L20 60H60L55 50" stroke="#3b82f6" stroke-width="2"/>
+        <path d="M30 60V65" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+        <path d="M50 60V65" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="login-form">
+      <h2 class="login-title">机械租赁平台管理后台</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <div class="form-input">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" name="username" placeholder="用户名" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-input">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="密码" required>
+          </div>
+        </div>
+        <div class="form-group flex items-center justify-between">
+          <div class="flex items-center">
+            <input type="checkbox" id="remember" name="remember" class="mr-2">
+            <label for="remember" class="text-sm text-gray-600">记住我</label>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:underline">忘记密码?</a>
+        </div>
+        <button type="button" onclick="handleLogin()" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition duration-200">
+          登录
+        </button>
+      </form>
+      <div class="form-footer">
+        &copy; 2023 机械租赁平台管理后台. 保留所有权利.
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script>
+    // 设置页面标题
+    setPageTitle('登录');
+    
+    // 处理登录
+    function handleLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      if (!username || !password) {
+        showNotification('请输入用户名和密码', 'error');
+        return;
+      }
+      
+      // 模拟登录过程
+      setTimeout(() => {
+        // 假设登录成功
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+        
+        // 重定向到仪表盘
+        window.location.href = 'dashboard.html';
+      }, 1000);
+    }
+    
+    // 按下回车键登录
+    document.getElementById('password').addEventListener('keyup', function(event) {
+      if (event.key === 'Enter') {
+        handleLogin();
+      }
+    });
+  </script>
+</body>
+</html> 
