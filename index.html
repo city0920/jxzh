@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>机械租赁平台管理后台 - 原型预览</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #333;
+      background-color: #f5f7fa;
+      padding: 2rem 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      max-width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+    }
+    
+    .title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+    
+    .description {
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #4b5563;
+      text-align: center;
+    }
+    
+    .frame-container {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+      background: white;
+      width: calc(100% - 0px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .frame-title {
+      background: #f1f5f9;
+      padding: 10px 15px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .frame-title h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    iframe {
+      border: none;
+      width: 100%;
+      flex: 1;
+    }
+    
+    .browser-controls {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+    
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    
+    .dot-red {
+      background-color: #ef4444;
+    }
+    
+    .dot-yellow {
+      background-color: #f59e0b;
+    }
+    
+    .dot-green {
+      background-color: #10b981;
+    }
+    
+    .browser-address {
+      flex: 1;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #4b5563;
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .page-selector {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+    
+    .page-selector button {
+      padding: 8px 16px;
+      margin: 0 8px 8px 0;
+      background-color: white;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    
+    .page-selector button:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+    
+    .page-selector button.active {
+      background-color: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+    
+    .page-selector button i {
+      margin-right: 8px;
+    }
+    
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: calc(100vw - 800px);
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 1600px) {
+      .content-wrapper {
+        width: calc(100vw - 400px);
+      }
+    }
+    
+    @media (max-width: 1000px) {
+      .content-wrapper {
+        width: calc(100vw - 200px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 10px;
+      }
+      
+      .content-wrapper {
+        width: calc(100vw - 40px);
+      }
+      
+      .frame-container {
+        border-radius: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="40" fill="#3b82f6" opacity="0.1"/>
+        <path d="M27.5 30H52.5C53.9 30 55 31.1 55 32.5V47.5C55 48.9 53.9 50 52.5 50H27.5C26.1 50 25 48.9 25 47.5V32.5C25 31.1 26.1 30 27.5 30Z" fill="#3b82f6"/>
+        <path d="M25 40H55" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="30" cy="35" r="2" fill="white"/>
+        <circle cx="35" cy="35" r="2" fill="white"/>
+        <circle cx="30" cy="45" r="2" fill="white"/>
+        <circle cx="35" cy="45" r="2" fill="white"/>
+        <path d="M45 35H50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M45 45H50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M25 50L20 60H60L55 50" stroke="#3b82f6" stroke-width="2"/>
+        <path d="M30 60V65" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+        <path d="M50 60V65" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1 class="title">机械租赁平台管理后台</h1>
+    <p class="subtitle">高保真原型预览</p>
+    
+    <div class="description">
+      本原型展示了机械租赁平台管理后台的主要功能和界面设计。您可以通过下方按钮切换不同页面预览。
+    </div>
+  </div>
+  
+  <div class="page-selector">
+    <button class="active" data-page="pages/login.html">
+      <i class="fas fa-sign-in-alt"></i> 登录页面
+    </button>
+    <button data-page="pages/dashboard.html">
+      <i class="fas fa-home"></i> 仪表盘
+    </button>
+    <button data-page="pages/equipment1.html">
+      <i class="fas fa-truck-monster"></i> 设备管理
+    </button>
+    <button data-page="pages/equipment-review.html">
+      <i class="fas fa-clipboard-check"></i> 设备审核
+    </button>
+    <button data-page="pages/orders.html">
+      <i class="fas fa-clipboard-list"></i> 订单管理
+    </button>
+    <button data-page="pages/order-detail.html">
+      <i class="fas fa-file-invoice"></i> 订单详情
+    </button>
+  </div>
+  
+  <div class="content-wrapper">
+    <div class="frame-container">
+      <div class="frame-title">
+        <div class="browser-controls">
+          <div class="browser-dot dot-red"></div>
+          <div class="browser-dot dot-yellow"></div>
+          <div class="browser-dot dot-green"></div>
+        </div>
+        <div class="browser-address" id="browser-address">机械租赁平台管理后台 / 登录页面</div>
+        <div class="flex items-center">
+          <a href="pages/login.html" target="_blank" class="text-blue-600 hover:underline text-sm mr-2" id="external-link">
+            <i class="fas fa-external-link-alt"></i> 新窗口打开
+          </a>
+          <h3 id="frame-title">登录页面</h3>
+        </div>
+      </div>
+      <iframe src="pages/login.html" frameborder="0" id="preview-frame"></iframe>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>机械租赁平台管理后台原型 &copy; 2023 保留所有权利</p>
+  </div>
+
+  <script>
+    // 页面切换功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.page-selector button');
+      const iframe = document.getElementById('preview-frame');
+      const browserAddress = document.getElementById('browser-address');
+      const frameTitle = document.getElementById('frame-title');
+      const externalLink = document.getElementById('external-link');
+      
+      // 页面标题映射
+      const pageMap = {
+        'pages/login.html': '登录页面',
+        'pages/dashboard.html': '仪表盘', 
+        'pages/equipment1.html': '设备管理',
+        'pages/equipment-review.html': '设备审核',
+        'pages/orders.html': '订单管理',
+        'pages/order-detail.html': '订单详情'
+      };
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          const pagePath = this.getAttribute('data-page');
+          
+          // 更新激活状态
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 更新iframe src
+          iframe.src = pagePath;
+          
+          // 更新地址栏和标题
+          const pageTitle = pageMap[pagePath];
+          browserAddress.textContent = `机械租赁平台管理后台 / ${pageTitle}`;
+          frameTitle.textContent = pageTitle;
+          
+          // 更新外部链接
+          externalLink.href = pagePath;
+        });
+      });
+      
+      // 调整iframe高度
+      function adjustIframeHeight() {
+        const viewportHeight = window.innerHeight;
+        const headerHeight = document.querySelector('.header').offsetHeight;
+        const selectorHeight = document.querySelector('.page-selector').offsetHeight;
+        const footerHeight = document.querySelector('.footer').offsetHeight;
+        const frameTitleHeight = document.querySelector('.frame-title').offsetHeight;
+        
+        // 计算可用高度，考虑额外边距
+        const availableHeight = viewportHeight - headerHeight - selectorHeight - footerHeight - frameTitleHeight - 60;
+        
+        // 设置最小高度
+        const minHeight = 500;
+        
+        iframe.style.height = Math.max(availableHeight, minHeight) + 'px';
+      }
+      
+      // 初始调整和窗口大小变化时调整
+      adjustIframeHeight();
+      window.addEventListener('resize', adjustIframeHeight);
+    });
+  </script>
+</body>
+</html> 
