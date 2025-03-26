@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业信息审核 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-approved {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-rejected {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .review-section {
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .review-section-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 8px 8px 0 0;
+        }
+        .review-section-body {
+            padding: 1.5rem;
+        }
+        .review-field {
+            margin-bottom: 1rem;
+        }
+        .review-field-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        .review-field-value {
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .review-image {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .review-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .review-image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 0.875rem;
+        }
+        .btn-approve {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .btn-approve:hover {
+            background-color: #059669;
+        }
+        .btn-reject {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .btn-reject:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="business-registration.html" id="menu-business" class="sidebar-link">
+                        <i class="fas fa-building"></i>
+                        <span>工商户注册管理</span>
+                    </a>
+                    <a href="business-verification-management.html" id="menu-verification" class="sidebar-link active">
+                        <i class="fas fa-id-card"></i>
+                        <span>雇主企业认证管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">企业信息审核</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 返回按钮 -->
+                <div class="mb-6">
+                    <a href="business-verification-management.html" class="flex items-center text-blue-600 text-sm font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        返回雇主企业认证管理
+                    </a>
+                </div>
+                
+                <!-- 申请信息 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-medium text-gray-800">申请信息</h3>
+                            <div class="text-sm">
+                                <span class="status-pending px-3 py-1 rounded-full text-xs mr-2">待审核</span>
+                                <span class="text-gray-500">提交时间：2023-05-20 14:30:45</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="col-span-2">
+                                <p class="text-sm text-gray-600 mb-3">
+                                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                    该用户提交了企业认证申请，请审核企业信息的真实性和完整性。
+                                </p>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">申请人</div>
+                                <div class="review-field-value">张三</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">联系电话</div>
+                                <div class="review-field-value">13800138000</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">用户ID</div>
+                                <div class="review-field-value">UID-10023456</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">用户注册时间</div>
+                                <div class="review-field-value">2023-01-15 10:23:12</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 企业基本信息 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-building text-blue-500 mr-2"></i>
+                            企业基本信息
+                        </h3>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="review-field">
+                                <div class="review-field-label">企业名称</div>
+                                <div class="review-field-value">营业执照上的企业名称</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">信用代码</div>
+                                <div class="review-field-value">企业统一社会信用代码</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">注册地址</div>
+                                <div class="review-field-value">企业详细通讯地址</div>
+                            </div>
+                            
+                            <div class="review-field">
+                                <div class="review-field-label">电话号码</div>
+                                <div class="review-field-value">企业联系电话号码</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 营业执照 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                            营业执照
+                        </h3>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                            <div class="p-5 rounded-lg flex items-center justify-center border border-gray-200">
+                                <div class="w-full max-w-md">
+                                    <div class="text-center mb-4">
+                                        <div class="w-64 h-64 bg-gray-100 rounded-md mx-auto flex items-center justify-center overflow-hidden">
+                                            <img src="https://www.generalwatertech.com/uploadfiles/2020/01/20200109175314541.jpg?MS5qcGc=" alt="营业执照" class="w-full h-full object-contain cursor-pointer" onclick="showFullImage(this.src)">
+                                        </div>
+                                        <div class="text-sm text-gray-500 mt-2">营业执照</div>
+                                    </div>
+                                    
+                                    <div class="flex justify-center">
+                                        <button class="btn btn-primary btn-sm mx-1" onclick="showFullImage('https://www.generalwatertech.com/uploadfiles/2020/01/20200109175314541.jpg?MS5qcGc=')">
+                                            <i class="fas fa-search-plus mr-1"></i>
+                                            查看大图
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 审核意见 -->
+                <div class="review-section mb-6">
+                    <div class="review-section-header">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-comment-alt text-blue-500 mr-2"></i>
+                            审核意见
+                        </h3>
+                    </div>
+                    <div class="review-section-body">
+                        <div class="form-group">
+                            <label for="review-comments" class="form-label">审核备注</label>
+                            <textarea id="review-comments" rows="4" class="form-control" placeholder="请输入审核意见（可选）"></textarea>
+                        </div>
+                        
+                        <div class="flex items-center justify-end mt-4 space-x-4">
+                            <button class="btn btn-reject px-6">
+                                <i class="fas fa-times mr-2"></i>
+                                不通过
+                            </button>
+                            <button class="btn btn-approve px-6">
+                                <i class="fas fa-check mr-2"></i>
+                                通过认证
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片预览模态框 -->
+                <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+                    <div class="relative max-w-4xl mx-auto">
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <img id="modal-image" src="" alt="大图预览" class="max-h-screen max-w-full p-4">
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // 侧边栏切换
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('aside').classList.toggle('hidden');
+        });
+        
+        // 图片预览功能
+        function showFullImage(src) {
+            document.getElementById('modal-image').src = src;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+        
+        function closeModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+        
+        // 点击模态框外部关闭
+        document.getElementById('image-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html> 

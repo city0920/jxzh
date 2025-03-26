@@ -55,6 +55,10 @@
                         <i class="fas fa-building"></i>
                         <span>工商户注册管理</span>
                     </a>
+                    <a href="business-verification-management.html" id="menu-verification" class="sidebar-link">
+                        <i class="fas fa-id-card"></i>
+                        <span>雇主企业认证管理</span>
+                    </a>
                     <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
                         <i class="fas fa-truck-monster"></i>
                         <span>设备管理</span>
@@ -126,10 +130,10 @@
             <!-- 页面内容 -->
             <main class="flex-1 overflow-y-auto p-6">
                 <!-- 统计卡片 -->
-                <div class="flex flex-wrap justify-between mb-6 overflow-x-auto">
+                <div class="stats-container flex flex-wrap gap-4 mb-6">
                     <!-- 卡片 1：总工商户数 -->
                     <div class="stat-card-inline">
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <div class="stat-icon-sm bg-purple-100 text-purple-600">
                                 <i class="fas fa-building"></i>
                             </div>
@@ -138,7 +142,7 @@
                                 <span class="text-sm text-gray-500">总工商户数</span>
                             </div>
                         </div>
-                        <div class="text-xs mt-2">
+                        <div class="text-xs mt-1">
                             <span class="text-green-600">
                                 <i class="fas fa-arrow-up"></i> 6.8%
                             </span>
@@ -148,7 +152,7 @@
                     
                     <!-- 卡片 2：待审核 -->
                     <div class="stat-card-inline">
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <div class="stat-icon-sm bg-yellow-100 text-yellow-600">
                                 <i class="fas fa-hourglass-half"></i>
                             </div>
@@ -157,7 +161,7 @@
                                 <span class="text-sm text-gray-500">待审核</span>
                             </div>
                         </div>
-                        <div class="text-xs mt-2">
+                        <div class="text-xs mt-1">
                             <span class="text-red-600">
                                 <i class="fas fa-arrow-up"></i> 12.3%
                             </span>
@@ -167,7 +171,7 @@
                     
                     <!-- 卡片 3：待办理 -->
                     <div class="stat-card-inline">
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <div class="stat-icon-sm bg-blue-100 text-blue-600">
                                 <i class="fas fa-tasks"></i>
                             </div>
@@ -176,7 +180,7 @@
                                 <span class="text-sm text-gray-500">待办理</span>
                             </div>
                         </div>
-                        <div class="text-xs mt-2">
+                        <div class="text-xs mt-1">
                             <span class="text-yellow-600">
                                 <i class="fas fa-arrow-up"></i> 5.8%
                             </span>
@@ -186,7 +190,7 @@
                     
                     <!-- 卡片 4：已认证 -->
                     <div class="stat-card-inline">
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <div class="stat-icon-sm bg-green-100 text-green-600">
                                 <i class="fas fa-check-circle"></i>
                             </div>
@@ -195,7 +199,7 @@
                                 <span class="text-sm text-gray-500">已认证</span>
                             </div>
                         </div>
-                        <div class="text-xs mt-2">
+                        <div class="text-xs mt-1">
                             <span class="text-green-600">
                                 <i class="fas fa-arrow-up"></i> 5.2%
                             </span>
@@ -205,7 +209,7 @@
                     
                     <!-- 卡片 5：未通过审核 -->
                     <div class="stat-card-inline">
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <div class="stat-icon-sm bg-red-100 text-red-600">
                                 <i class="fas fa-times-circle"></i>
                             </div>
@@ -214,7 +218,7 @@
                                 <span class="text-sm text-gray-500">未通过审核</span>
                             </div>
                         </div>
-                        <div class="text-xs mt-2">
+                        <div class="text-xs mt-1">
                             <span class="text-red-600">
                                 <i class="fas fa-arrow-down"></i> 2.5%
                             </span>
@@ -769,6 +773,28 @@
             // 为移动端添加侧边栏切换功能
             const sidebarToggle = document.getElementById('sidebar-toggle');
             const sidebar = document.querySelector('aside');
+            
+            // 窗口尺寸变化时调整统计卡片布局
+            function adjustStatCardsLayout() {
+                const statCardsContainer = document.querySelector('.stats-container');
+                if (window.innerWidth > 1920) {
+                    // 大于1920像素时，设置为一行显示
+                    statCardsContainer.classList.remove('flex-wrap');
+                    statCardsContainer.classList.add('justify-around');
+                    statCardsContainer.classList.remove('justify-start');
+                } else {
+                    // 小于等于1920像素时，设置为依次排列
+                    statCardsContainer.classList.add('flex-wrap');
+                    statCardsContainer.classList.remove('justify-around');
+                    statCardsContainer.classList.add('justify-start');
+                }
+            }
+            
+            // 页面加载完成后调整布局
+            adjustStatCardsLayout();
+            
+            // 监听窗口尺寸变化事件
+            window.addEventListener('resize', adjustStatCardsLayout);
             
             sidebarToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('hidden');
