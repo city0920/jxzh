@@ -481,7 +481,7 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>杭州某某信息技术有限公司</td>
+                                    <td><a href="business-todo-detail.html" class="text-blue-600 hover:underline">杭州某某信息技术有限公司</a></td>
                                     <td>浙江省杭州市西湖区文三路553号</td>
                                     <td>周八</td>
                                     <td>13866778899</td>
@@ -502,7 +502,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>重庆某某建材有限公司</td>
+                                    <td><a href="business-todo-detail.html" class="text-blue-600 hover:underline">重庆某某建材有限公司</a></td>
                                     <td>重庆市渝北区金开大道1233号</td>
                                     <td>孙九</td>
                                     <td>13923456789</td>
@@ -523,7 +523,7 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td>武汉某某机械维修服务部</td>
+                                    <td><a href="business-todo-detail.html" class="text-blue-600 hover:underline">武汉某某机械维修服务部</a></td>
                                     <td>湖北省武汉市江汉区解放大道688号</td>
                                     <td>吴十</td>
                                     <td>13834567890</td>
@@ -780,7 +780,7 @@
             // 查询按钮点击事件
             document.getElementById('search-btn').addEventListener('click', function() {
                 // 实现查询逻辑
-                console.log('查询工商户信息');
+                console.log('查询');
             });
 
             // 重置按钮点击事件
@@ -921,6 +921,14 @@
                         // 跳转到编辑页面或弹出编辑对话框
                         console.log('编辑工商户信息');
                     });
+                }
+            });
+            
+            // 修复工商户待办理详情链接
+            document.querySelectorAll('#content-todo .btn-primary').forEach(link => {
+                // 修复链接
+                if (link.querySelector('.fa-eye')) {
+                    link.href = 'business-todo-detail.html';
                 }
             });
         });

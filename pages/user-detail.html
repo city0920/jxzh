@@ -212,6 +212,26 @@
                                     <i class="fas fa-chart-pie mr-2"></i>订单统计
                                 </a>
                             </li>
+                            <li class="mr-2">
+                                <a href="#tab-contracts" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="contracts">
+                                    <i class="fas fa-file-contract mr-2"></i>合同记录
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-invoices" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="invoices">
+                                    <i class="fas fa-file-invoice mr-2"></i>开票记录
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-settlements" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="settlements">
+                                    <i class="fas fa-money-check-alt mr-2"></i>结算记录
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-reviews" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="reviews">
+                                    <i class="fas fa-star mr-2"></i>评价记录
+                                </a>
+                            </li>
                             <li>
                                 <a href="#tab-history" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="history">
                                     <i class="fas fa-history mr-2"></i>操作记录
@@ -441,7 +461,7 @@
                                             <th>日租金</th>
                                             <th>运行状态</th>
                                             <th>审核状态</th>
-                                            <th class="w-24">操作</th>
+                                            <th class="w-28">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -468,7 +488,7 @@
                                             </td>
                                             <td class="text-center"><span class="badge status-active">可租用</span></td>
                                             <td class="text-center"><span class="badge status-approved">已审核</span></td>
-                                            <td class="text-right">
+                                            <td class="text-center">
                                                 <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
@@ -500,7 +520,7 @@
                                             </td>
                                             <td class="text-center"><span class="badge status-leased">已租出</span></td>
                                             <td class="text-center"><span class="badge status-approved">已审核</span></td>
-                                            <td class="text-right">
+                                            <td class="text-center">
                                                 <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
@@ -511,53 +531,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            
-                            <!-- 设备使用统计 -->
-                            <div class="mt-8">
-                                <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
-                                    <i class="fas fa-chart-line mr-2 text-blue-500"></i>
-                                    设备运营状况
-                                </h4>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-                                    <div class="card stat-card flex items-center p-4">
-                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-500">
-                                            <i class="fas fa-truck-monster text-xl"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-gray-500 text-sm font-medium">总设备数</h4>
-                                            <span class="text-2xl font-semibold text-gray-800">2</span>
-                                        </div>
-                                    </div>
-                                    <div class="card stat-card flex items-center p-4">
-                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-500">
-                                            <i class="fas fa-check-circle text-xl"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-gray-500 text-sm font-medium">可租用设备</h4>
-                                            <span class="text-2xl font-semibold text-gray-800">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="card stat-card flex items-center p-4">
-                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 text-yellow-500">
-                                            <i class="fas fa-hourglass-half text-xl"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-gray-500 text-sm font-medium">已租出设备</h4>
-                                            <span class="text-2xl font-semibold text-gray-800">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="card stat-card flex items-center p-4">
-                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 text-purple-500">
-                                            <i class="fas fa-money-bill-wave text-xl"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-gray-500 text-sm font-medium">本月租金收入</h4>
-                                            <span class="text-2xl font-semibold text-gray-800">¥36,000</span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         
@@ -625,7 +598,7 @@
                                                 <th>租赁期限</th>
                                                 <th>租金金额</th>
                                                 <th>状态</th>
-                                                <th class="w-24">操作</th>
+                                                <th class="w-28">操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -638,8 +611,13 @@
                                                 <td>2023-03-25 至 2023-04-25</td>
                                                 <td>¥36,000</td>
                                                 <td><span class="badge status-active">进行中</span></td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-primary">详情</a>
+                                                <td class="text-center">
+                                                    <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm bg-green-50 text-green-600">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -651,12 +629,286 @@
                                                 <td>2023-02-20 至 2023-03-10</td>
                                                 <td>¥32,400</td>
                                                 <td><span class="badge badge-success">已完成</span></td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-primary">详情</a>
+                                                <td class="text-center">
+                                                    <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm bg-green-50 text-green-600">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 合同记录标签页 -->
+                        <div id="tab-contracts" class="tab-pane hidden p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-file-contract mr-2 text-blue-500"></i>
+                                合同记录
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="custom-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>合同编号</th>
+                                            <th>合同类型</th>
+                                            <th>关联订单</th>
+                                            <th>签订日期</th>
+                                            <th>合同期限</th>
+                                            <th>合同金额</th>
+                                            <th>状态</th>
+                                            <th class="w-28">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">CT20230325002</div>
+                                            </td>
+                                            <td>设备租赁合同</td>
+                                            <td>ORD20230325002</td>
+                                            <td>2023-03-25</td>
+                                            <td>2023-03-25 至 2023-04-25</td>
+                                            <td>¥36,000</td>
+                                            <td><span class="badge status-active">执行中</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">CT20230220001</div>
+                                            </td>
+                                            <td>设备租赁合同</td>
+                                            <td>ORD20230220001</td>
+                                            <td>2023-02-20</td>
+                                            <td>2023-02-20 至 2023-03-10</td>
+                                            <td>¥32,400</td>
+                                            <td><span class="badge badge-success">已完成</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 开票记录标签页 -->
+                        <div id="tab-invoices" class="tab-pane hidden p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-file-invoice mr-2 text-blue-500"></i>
+                                开票记录
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="custom-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>发票编号</th>
+                                            <th>发票类型</th>
+                                            <th>关联订单</th>
+                                            <th>开票日期</th>
+                                            <th>发票金额</th>
+                                            <th>发票抬头</th>
+                                            <th>状态</th>
+                                            <th class="w-28">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">INV20230326001</div>
+                                            </td>
+                                            <td>增值税专用发票</td>
+                                            <td>ORD20230325002</td>
+                                            <td>2023-03-26</td>
+                                            <td>¥36,000</td>
+                                            <td>天津建工有限公司</td>
+                                            <td><span class="badge badge-success">已开具</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">INV20230310001</div>
+                                            </td>
+                                            <td>增值税普通发票</td>
+                                            <td>ORD20230220001</td>
+                                            <td>2023-03-10</td>
+                                            <td>¥32,400</td>
+                                            <td>李工程</td>
+                                            <td><span class="badge badge-success">已开具</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 结算记录标签页 -->
+                        <div id="tab-settlements" class="tab-pane hidden p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-money-check-alt mr-2 text-blue-500"></i>
+                                结算记录
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="custom-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>结算单号</th>
+                                            <th>关联订单</th>
+                                            <th>结算类型</th>
+                                            <th>结算金额</th>
+                                            <th>结算时间</th>
+                                            <th>支付方式</th>
+                                            <th>状态</th>
+                                            <th class="w-28">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">ST20230425001</div>
+                                            </td>
+                                            <td>ORD20230325002</td>
+                                            <td>租金结算</td>
+                                            <td>¥36,000</td>
+                                            <td>2023-04-25</td>
+                                            <td>银行转账</td>
+                                            <td><span class="badge badge-success">已完成</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="font-medium text-gray-800">ST20230310001</div>
+                                            </td>
+                                            <td>ORD20230220001</td>
+                                            <td>租金结算</td>
+                                            <td>¥32,400</td>
+                                            <td>2023-03-10</td>
+                                            <td>支付宝</td>
+                                            <td><span class="badge badge-success">已完成</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价记录标签页 -->
+                        <div id="tab-reviews" class="tab-pane hidden p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-star mr-2 text-blue-500"></i>
+                                评价记录
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 gap-6">
+                                <!-- 评价项 1 -->
+                                <div class="bg-white border rounded-lg p-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="flex items-center">
+                                                <span class="text-yellow-400 flex">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </span>
+                                                <span class="ml-2 text-gray-700 font-medium">5.0分</span>
+                                            </div>
+                                            <div class="text-sm text-gray-500 mt-1">ORD20230220001 - 三一485C挖掘机</div>
+                                        </div>
+                                        <div class="text-sm text-gray-500">2023-03-10</div>
+                                    </div>
+                                    <p class="text-gray-700 mb-3">
+                                        设备状态很好，服务也很到位，非常满意，期待下次合作！
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="客户头像" class="w-full h-full object-cover">
+                                            </div>
+                                            <span class="text-sm font-medium">天津建工有限公司</span>
+                                        </div>
+                                        <a href="#" class="text-blue-600 text-sm hover:underline">查看详情</a>
+                                    </div>
+                                </div>
+                                
+                                <!-- 评价项 2 -->
+                                <div class="bg-white border rounded-lg p-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="flex items-center">
+                                                <span class="text-yellow-400 flex">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </span>
+                                                <span class="ml-2 text-gray-700 font-medium">4.0分</span>
+                                            </div>
+                                            <div class="text-sm text-gray-500 mt-1">ORD20230118003 - 徐工LW500铲车</div>
+                                        </div>
+                                        <div class="text-sm text-gray-500">2023-02-18</div>
+                                    </div>
+                                    <p class="text-gray-700 mb-3">
+                                        设备性能良好，服务及时，就是价格稍高。
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="客户头像" class="w-full h-full object-cover">
+                                            </div>
+                                            <span class="text-sm font-medium">李工程</span>
+                                        </div>
+                                        <a href="#" class="text-blue-600 text-sm hover:underline">查看详情</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
