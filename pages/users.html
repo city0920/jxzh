@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link active">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="business-registration.html" id="menu-business" class="sidebar-link">
+                        <i class="fas fa-building"></i>
+                        <span>工商户注册管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">用户管理</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 统计卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- 卡片 1：总用户数 -->
+                    <div class="card">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-purple-100 text-purple-600">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>1,286</h4>
+                                <span>总用户数</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm">
+                            <span class="text-green-600">
+                                <i class="fas fa-arrow-up"></i> 8.1%
+                            </span>
+                            <span class="text-gray-500 ml-1">较上月</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片 2：雇主用户 -->
+                    <div class="card">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-blue-100 text-blue-600">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>427</h4>
+                                <span>雇主用户</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm">
+                            <span class="text-green-600">
+                                <i class="fas fa-arrow-up"></i> 5.3%
+                            </span>
+                            <span class="text-gray-500 ml-1">较上月</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片 3：机主用户 -->
+                    <div class="card">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-green-100 text-green-600">
+                                <i class="fas fa-user-hard-hat"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>364</h4>
+                                <span>机主用户</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm">
+                            <span class="text-green-600">
+                                <i class="fas fa-arrow-up"></i> 7.2%
+                            </span>
+                            <span class="text-gray-500 ml-1">较上月</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片 4：司机用户 -->
+                    <div class="card">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-yellow-100 text-yellow-600">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>495</h4>
+                                <span>司机用户</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm">
+                            <span class="text-green-600">
+                                <i class="fas fa-arrow-up"></i> 10.5%
+                            </span>
+                            <span class="text-gray-500 ml-1">较上月</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 搜索和筛选区域 -->
+                <div class="card mb-6">
+                    <div class="filter-section">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                            <div class="form-group mb-0">
+                                <label class="form-label">用户名：</label>
+                                <input type="text" class="form-control" placeholder="请输入">
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">姓名：</label>
+                                <input type="text" class="form-control" placeholder="请输入">
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">用户来源：</label>
+                                <select class="form-control">
+                                    <option value="">全部</option>
+                                    <option value="web">web注册</option>
+                                    <option value="app">app注册</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">状态：</label>
+                                <select class="form-control">
+                                    <option value="">全部</option>
+                                    <option value="normal">正常</option>
+                                    <option value="frozen">冻结</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end mt-4">
+                            <button class="btn btn-primary mr-2" id="search-btn">
+                                <i class="fas fa-search mr-1"></i> 查询
+                            </button>
+                            <button class="btn btn-success" id="reset-btn">
+                                <i class="fas fa-redo-alt mr-1"></i> 重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 用户标签页 -->
+                <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+                    <!-- 标签导航 -->
+                    <div class="border-b border-gray-200">
+                        <nav class="flex">
+                            <button id="tab-all" class="tab-btn px-4 py-3 border-b-2 border-blue-500 text-blue-600 font-medium flex items-center">
+                                <i class="fas fa-users mr-2"></i>
+                                全部用户
+                            </button>
+                            <button id="tab-employer" class="tab-btn px-4 py-3 text-gray-600 hover:text-gray-800 font-medium flex items-center">
+                                <i class="fas fa-user-tie mr-2"></i>
+                                雇主
+                            </button>
+                            <button id="tab-owner" class="tab-btn px-4 py-3 text-gray-600 hover:text-gray-800 font-medium flex items-center">
+                                <i class="fas fa-hard-hat mr-2"></i>
+                                机主
+                            </button>
+                            <button id="tab-driver" class="tab-btn px-4 py-3 text-gray-600 hover:text-gray-800 font-medium flex items-center">
+                                <i class="fas fa-truck mr-2"></i>
+                                司机
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <!-- 操作按钮区 -->
+                    <div class="p-4 border-b border-gray-200 flex flex-wrap">
+                        <button class="filter-btn btn-sm mb-2 mr-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+                            已认证用户
+                        </button>
+                        <button class="filter-btn btn-sm mb-2 mr-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+                            未认证用户
+                        </button>
+                        <button class="filter-btn btn-sm mb-2 mr-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+                            删除用户
+                        </button>
+                        <div class="flex-grow"></div>
+                        <button class="btn btn-primary mb-2" id="add-user-btn">
+                            <i class="fas fa-plus mr-1"></i> 新建用户
+                        </button>
+                    </div>
+                
+                    <!-- 标签内容 - 全部用户 -->
+                    <div id="content-all" class="tab-content">
+                        <table class="custom-table w-full">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">序号</th>
+                                    <th>手机号</th>
+                                    <th>姓名</th>
+                                    <th>认证状态</th>
+                                    <th>身份证号</th>
+                                    <th>企业名称</th>
+                                    <th>类型</th>
+                                    <th>状态</th>
+                                    <th>用户来源</th>
+                                    <th>创建时间</th>
+                                    <th style="width: 120px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>15510823186</td>
+                                    <td>赵晓宇</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>企业名称xxxx</td>
+                                    <td>
+                                        <span class="badge badge-success">雇主</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>15510823184</td>
+                                    <td>管虾龙</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>企业名称某某某</td>
+                                    <td>
+                                        <span class="badge badge-info">机主</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>app注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>15510823185</td>
+                                    <td>王小旺</td>
+                                    <td>
+                                        <span class="badge badge-warning">未认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>企业名称某某某</td>
+                                    <td>
+                                        <span class="badge badge-warning">司机</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-danger">冻结</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 标签内容 - 雇主用户 -->
+                    <div id="content-employer" class="tab-content hidden">
+                        <table class="custom-table w-full">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">序号</th>
+                                    <th>手机号</th>
+                                    <th>姓名</th>
+                                    <th>认证状态</th>
+                                    <th>身份证号</th>
+                                    <th>企业名称</th>
+                                    <th>状态</th>
+                                    <th>用户来源</th>
+                                    <th>创建时间</th>
+                                    <th style="width: 120px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>15510823186</td>
+                                    <td>赵晓宇</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>企业名称xxxx</td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>15510823189</td>
+                                    <td>李志明</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924198909234578</td>
+                                    <td>某某建筑公司</td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2021.03.15 09:24:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 标签内容 - 机主用户 -->
+                    <div id="content-owner" class="tab-content hidden">
+                        <table class="custom-table w-full">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">序号</th>
+                                    <th>手机号</th>
+                                    <th>姓名</th>
+                                    <th>认证状态</th>
+                                    <th>身份证号</th>
+                                    <th>企业名称</th>
+                                    <th>拥有设备数</th>
+                                    <th>状态</th>
+                                    <th>用户来源</th>
+                                    <th>创建时间</th>
+                                    <th style="width: 120px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>15510823184</td>
+                                    <td>管虾龙</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>企业名称某某某</td>
+                                    <td>5</td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>app注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>15510823176</td>
+                                    <td>张海洋</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924198809234512</td>
+                                    <td>海洋机械设备有限公司</td>
+                                    <td>8</td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2021.01.18 15:30:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 标签内容 - 司机用户 -->
+                    <div id="content-driver" class="tab-content hidden">
+                        <table class="custom-table w-full">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">序号</th>
+                                    <th>手机号</th>
+                                    <th>姓名</th>
+                                    <th>认证状态</th>
+                                    <th>身份证号</th>
+                                    <th>驾驶证号</th>
+                                    <th>状态</th>
+                                    <th>用户来源</th>
+                                    <th>创建时间</th>
+                                    <th style="width: 120px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>15510823185</td>
+                                    <td>王小旺</td>
+                                    <td>
+                                        <span class="badge badge-warning">未认证</span>
+                                    </td>
+                                    <td>130924189309234578</td>
+                                    <td>B42353424</td>
+                                    <td>
+                                        <span class="badge badge-danger">冻结</span>
+                                    </td>
+                                    <td>web注册</td>
+                                    <td>2020.12.2 12:00:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>15510823192</td>
+                                    <td>刘建国</td>
+                                    <td>
+                                        <span class="badge badge-success">已认证</span>
+                                    </td>
+                                    <td>130924198709237890</td>
+                                    <td>A32564198</td>
+                                    <td>
+                                        <span class="badge badge-success">正常</span>
+                                    </td>
+                                    <td>app注册</td>
+                                    <td>2021.02.05 08:45:00</td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <a href="#" class="btn btn-sm btn-primary" title="查看详情">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-danger" title="删除用户">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-4 md:mb-0 text-sm text-gray-600">
+                        共 400 条记录 第 1 / 80 页
+                    </div>
+                    <div class="flex items-center">
+                        <nav class="flex items-center space-x-1 mr-4">
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm bg-blue-500 text-white">1</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">2</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">3</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">4</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">5</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">...</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">80</a>
+                            <a href="#" class="btn btn-sm bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </nav>
+                        <div class="flex items-center space-x-2">
+                            <select class="form-control text-sm" style="width: 100px;">
+                                <option value="10">10条/页</option>
+                                <option value="20">20条/页</option>
+                                <option value="50">50条/页</option>
+                            </select>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-sm text-gray-600">跳至</span>
+                                <input type="text" class="form-control w-16 text-sm" value="1">
+                                <span class="text-sm text-gray-600">页</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前菜单项为激活状态
+            document.getElementById('menu-users').classList.add('active');
+            
+            // 为移动端添加侧边栏切换功能
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.querySelector('aside');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('z-10');
+                sidebar.classList.toggle('inset-0');
+            });
+            
+            // 查询按钮点击事件
+            document.getElementById('search-btn').addEventListener('click', function() {
+                // 实现查询逻辑
+                console.log('查询');
+            });
+
+            // 重置按钮点击事件
+            document.getElementById('reset-btn').addEventListener('click', function() {
+                // 重置表单
+                document.querySelectorAll('.form-control').forEach(input => {
+                    if (input.tagName === 'SELECT') {
+                        input.selectedIndex = 0;
+                    } else {
+                        input.value = '';
+                    }
+                });
+            });
+            
+            // 新建用户按钮点击事件
+            document.getElementById('add-user-btn').addEventListener('click', function() {
+                // 实现新建用户逻辑
+                console.log('新建用户');
+            });
+            
+            // 标签页切换功能
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有标签的激活状态
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('border-b-2', 'border-blue-500', 'text-blue-600');
+                        btn.classList.add('text-gray-600');
+                    });
+                    
+                    // 为当前点击的标签添加激活状态
+                    button.classList.add('border-b-2', 'border-blue-500', 'text-blue-600');
+                    button.classList.remove('text-gray-600');
+                    
+                    // 隐藏所有内容区域
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    // 显示对应的内容区域
+                    const contentId = button.id.replace('tab-', 'content-');
+                    document.getElementById(contentId).classList.remove('hidden');
+                });
+            });
+            
+            // 过滤按钮点击事件
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有过滤按钮的激活状态
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-white', 'text-gray-700');
+                    });
+                    
+                    // 为当前点击的按钮添加激活状态
+                    this.classList.remove('bg-white', 'text-gray-700');
+                    this.classList.add('bg-blue-500', 'text-white');
+                    
+                    // 实现筛选逻辑
+                    console.log('筛选:', this.textContent.trim());
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户详情 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 状态标签样式 */
+        .badge-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link active">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="business-registration.html" id="menu-business" class="sidebar-link">
+                        <i class="fas fa-building"></i>
+                        <span>工商户注册管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">用户详情</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 返回按钮 -->
+                <div class="mb-6">
+                    <a href="users.html" class="flex items-center text-blue-600 text-sm font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        返回上一级
+                    </a>
+                </div>
+                
+                <!-- 用户基本信息 - 新布局 -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row items-start">
+                            <!-- 用户头像 -->
+                            <div class="flex-shrink-0 mr-6">
+                                <div class="w-20 h-20 rounded-full bg-gray-200 overflow-hidden mb-2">
+                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="用户头像" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            
+                            <!-- 用户基本信息 -->
+                            <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12">
+                                <!-- 第一行 -->
+                                <div class="flex items-center">
+                                    <span class="text-gray-800 font-medium mr-2">13600018888 / 赵磊</span>
+                                    <span class="badge badge-success px-3 py-1 text-xs rounded-full">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        已认证
+                                    </span>
+                                </div>
+                                
+                                <!-- 第一行右侧 -->
+                                <div class="flex justify-end">
+                                    <button class="btn btn-blue mr-3">
+                                        <i class="fas fa-wrench mr-1"></i>
+                                        修改工商户信息
+                                    </button>
+                                    <button class="btn btn-gray">
+                                        <i class="fas fa-cog mr-1"></i>
+                                        设置状态
+                                    </button>
+                                </div>
+                                
+                                <!-- 第二行 -->
+                                <div class="flex items-center">
+                                    <span class="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs mr-3">机主/司机</span>
+                                </div>
+                                
+                                <!-- 第三行 -->
+                                <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label class="text-gray-500 text-sm">用户状态</label>
+                                        <div class="mt-1 flex items-center">
+                                            <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                                            <span class="text-base font-medium">正常</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="text-gray-500 text-sm">账户余额</label>
+                                        <div class="mt-1 text-base font-medium">¥20000.00</div>
+                                    </div>
+                                    <div>
+                                        <label class="text-gray-500 text-sm">订单数量</label>
+                                        <div class="mt-1 text-base font-medium">100</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 标签页区域 -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <!-- 标签页导航 -->
+                    <div class="border-b border-gray-200">
+                        <ul class="flex flex-wrap -mb-px">
+                            <li class="mr-2">
+                                <a href="#tab-basic-info" class="tab-link active inline-block py-4 px-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg font-medium" data-tab="basic-info">
+                                    <i class="fas fa-info-circle mr-2"></i>基本信息
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-certification" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="certification">
+                                    <i class="fas fa-building mr-2"></i>工商户信息
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-equipment" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="equipment">
+                                    <i class="fas fa-truck-monster mr-2"></i>设备信息
+                                </a>
+                            </li>
+                            <li class="mr-2">
+                                <a href="#tab-orders" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="orders">
+                                    <i class="fas fa-chart-pie mr-2"></i>订单统计
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#tab-history" class="tab-link inline-block py-4 px-4 text-gray-500 hover:text-gray-600 border-b-2 border-transparent hover:border-gray-300 rounded-t-lg font-medium" data-tab="history">
+                                    <i class="fas fa-history mr-2"></i>操作记录
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 标签页内容 -->
+                    <div class="tab-content">
+                        <!-- 基本信息标签页 -->
+                        <div id="tab-basic-info" class="tab-pane active p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-user-circle mr-2 text-blue-500"></i>
+                                用户资料
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse">
+                                    <tbody>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700 w-1/6">ID编号</td>
+                                            <td class="py-3 px-4 w-1/3">20208447466</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700 w-1/6">用户类型</td>
+                                            <td class="py-3 px-4 w-1/3">机主</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">手机号码（用户名）</td>
+                                            <td class="py-3 px-4">18088889999</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">姓名</td>
+                                            <td class="py-3 px-4">赵磊 <span class="text-blue-500">(已实名)</span></td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">身份证号</td>
+                                            <td class="py-3 px-4">
+                                                120101198001018888
+                                                <a href="#" class="text-blue-500 ml-2 hover:underline">查看实名证件</a>
+                                            </td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">性别</td>
+                                            <td class="py-3 px-4">未知</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">年龄</td>
+                                            <td class="py-3 px-4">30</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">行业</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">职业</td>
+                                            <td class="py-3 px-4">—</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">擅长机型</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">个性签名</td>
+                                            <td class="py-3 px-4">—</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">用户来源</td>
+                                            <td class="py-3 px-4">APP机主端</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">注册时间</td>
+                                            <td class="py-3 px-4">2025-03-10 09:00:00</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">驾照认证</td>
+                                            <td class="py-3 px-4">未认证</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">操作证认证</td>
+                                            <td class="py-3 px-4" colspan="3">未认证</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 认证信息标签页 -->
+                        <div id="tab-certification" class="tab-pane hidden p-6">
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-building mr-2 text-blue-500"></i>
+                                工商户信息
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse">
+                                    <tbody>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700 w-1/6">工商户名称/企业名称</td>
+                                            <td class="py-3 px-4 w-1/3">天津市深远机械设备工作站</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700 w-1/6">统一社会信用代码</td>
+                                            <td class="py-3 px-4 w-1/3">91120116562685073</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">工商户注册时间</td>
+                                            <td class="py-3 px-4">2025-3-21</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">状态</td>
+                                            <td class="py-3 px-4">正常</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">工商注册账号</td>
+                                            <td class="py-3 px-4">C19208</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">工商注册密码</td>
+                                            <td class="py-3 px-4">**********</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">年审状态</td>
+                                            <td class="py-3 px-4">已年审</td>
+                                            <td class="py-3 px-4 bg-gray-50 font-medium text-gray-700">年审时间</td>
+                                            <td class="py-3 px-4">2025-03-21</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 mt-8 flex items-center">
+                                <i class="fas fa-file-alt mr-2 text-blue-500"></i>
+                                企业资质文件
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-file-image text-blue-500 text-xl mr-2"></i>
+                                            <span class="text-sm font-medium">营业执照</span>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-blue-600 text-sm hover:underline">
+                                                <i class="fas fa-download mr-1"></i>下载
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                                        <i class="fas fa-file-image text-blue-500 text-4xl"></i>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        上传时间：2022-05-18 10:15:00
+                                    </div>
+                                </div>
+                                
+                                <div class="border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-file-image text-blue-500 text-xl mr-2"></i>
+                                            <span class="text-sm font-medium">开户许可证</span>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-blue-600 text-sm hover:underline">
+                                                <i class="fas fa-download mr-1"></i>下载
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                                        <i class="fas fa-file-image text-blue-500 text-4xl"></i>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        上传时间：2022-05-20 14:30:00
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4 class="text-lg font-medium text-gray-800 mb-4 mt-8 flex items-center">
+                                <i class="fas fa-history mr-2 text-blue-500"></i>
+                                年审记录
+                            </h4>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse">
+                                    <thead class="bg-gray-50">
+                                        <tr class="border-b border-gray-200">
+                                            <th class="py-3 px-4 text-left font-medium text-gray-700">年审时间</th>
+                                            <th class="py-3 px-4 text-left font-medium text-gray-700">年审状态</th>
+                                            <th class="py-3 px-4 text-left font-medium text-gray-700">记录时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4">2025-03-21</td>
+                                            <td class="py-3 px-4">已年审</td>
+                                            <td class="py-3 px-4">2025-03-21 09:00:00</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4">2024-03-21</td>
+                                            <td class="py-3 px-4">未年审</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4">2023-03-21</td>
+                                            <td class="py-3 px-4">未年审</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4">2022-03-21</td>
+                                            <td class="py-3 px-4">未年审</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-3 px-4">2021-03-21</td>
+                                            <td class="py-3 px-4">未年审</td>
+                                            <td class="py-3 px-4">—</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 设备信息标签页 -->
+                        <div id="tab-equipment" class="tab-pane hidden p-6">
+                            <div class="flex flex-wrap items-center mb-6">
+                                <div class="mb-4 md:mb-0">
+                                    <h4 class="text-lg font-medium text-gray-800 flex items-center">
+                                        <i class="fas fa-truck-monster mr-2 text-blue-500"></i>
+                                        用户设备列表
+                                    </h4>
+                                    <p class="text-sm text-gray-500">当前用户拥有设备共2台</p>
+                                </div>
+                            </div>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="custom-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th class="w-16">序号</th>
+                                            <th>设备名称</th>
+                                            <th>设备ID</th>
+                                            <th>设备类型</th>
+                                            <th>设备品牌</th>
+                                            <th>设备型号</th>
+                                            <th>日租金</th>
+                                            <th>运行状态</th>
+                                            <th>审核状态</th>
+                                            <th class="w-24">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td>
+                                                <div class="flex items-center">
+                                                    <div class="w-10 h-10 rounded bg-gray-100 flex items-center justify-center mr-3 overflow-hidden">
+                                                        <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="三一485C挖掘机" class="w-full h-full object-cover">
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium text-gray-800">三一485C挖掘机</div>
+                                                        <div class="text-xs text-gray-500">添加于 2023-02-10</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">DEV-20230001</td>
+                                            <td><span class="badge badge-blue">挖掘机</span></td>
+                                            <td class="text-center">三一重工</td>
+                                            <td class="text-center">485C-2023</td>
+                                            <td>
+                                                <div class="text-center font-medium">¥1800</div>
+                                                <div class="text-xs text-gray-500 text-center">月租:¥45,000</div>
+                                            </td>
+                                            <td class="text-center"><span class="badge status-active">可租用</span></td>
+                                            <td class="text-center"><span class="badge status-approved">已审核</span></td>
+                                            <td class="text-right">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td>
+                                                <div class="flex items-center">
+                                                    <div class="w-10 h-10 rounded bg-gray-100 flex items-center justify-center mr-3 overflow-hidden">
+                                                        <img src="https://img1.baidu.com/it/u=3718047089,2368478188&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500" alt="徐工LW500铲车" class="w-full h-full object-cover">
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium text-gray-800">徐工LW500铲车</div>
+                                                        <div class="text-xs text-gray-500">添加于 2023-02-15</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">DEV-20230012</td>
+                                            <td><span class="badge badge-yellow">装载机</span></td>
+                                            <td class="text-center">徐工</td>
+                                            <td class="text-center">LW500-2022</td>
+                                            <td>
+                                                <div class="text-center font-medium">¥1500</div>
+                                                <div class="text-xs text-gray-500 text-center">月租:¥36,000</div>
+                                            </td>
+                                            <td class="text-center"><span class="badge status-leased">已租出</span></td>
+                                            <td class="text-center"><span class="badge status-approved">已审核</span></td>
+                                            <td class="text-right">
+                                                <a href="#" class="btn btn-sm bg-blue-50 text-blue-600 mr-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm bg-green-50 text-green-600">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- 设备使用统计 -->
+                            <div class="mt-8">
+                                <h4 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-chart-line mr-2 text-blue-500"></i>
+                                    设备运营状况
+                                </h4>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                                    <div class="card stat-card flex items-center p-4">
+                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-500">
+                                            <i class="fas fa-truck-monster text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="text-gray-500 text-sm font-medium">总设备数</h4>
+                                            <span class="text-2xl font-semibold text-gray-800">2</span>
+                                        </div>
+                                    </div>
+                                    <div class="card stat-card flex items-center p-4">
+                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-500">
+                                            <i class="fas fa-check-circle text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="text-gray-500 text-sm font-medium">可租用设备</h4>
+                                            <span class="text-2xl font-semibold text-gray-800">1</span>
+                                        </div>
+                                    </div>
+                                    <div class="card stat-card flex items-center p-4">
+                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 text-yellow-500">
+                                            <i class="fas fa-hourglass-half text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="text-gray-500 text-sm font-medium">已租出设备</h4>
+                                            <span class="text-2xl font-semibold text-gray-800">1</span>
+                                        </div>
+                                    </div>
+                                    <div class="card stat-card flex items-center p-4">
+                                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 text-purple-500">
+                                            <i class="fas fa-money-bill-wave text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="text-gray-500 text-sm font-medium">本月租金收入</h4>
+                                            <span class="text-2xl font-semibold text-gray-800">¥36,000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 订单统计标签页 -->
+                        <div id="tab-orders" class="tab-pane hidden p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                <!-- 总订单数 -->
+                                <div class="stat-card-inline">
+                                    <div class="stat-icon-sm bg-blue-100 text-blue-600">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                    <div>
+                                        <h4>28</h4>
+                                        <span>总订单数</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 完成订单 -->
+                                <div class="stat-card-inline">
+                                    <div class="stat-icon-sm bg-green-100 text-green-600">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h4>23</h4>
+                                        <span>完成订单</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 进行中订单 -->
+                                <div class="stat-card-inline">
+                                    <div class="stat-icon-sm bg-yellow-100 text-yellow-600">
+                                        <i class="fas fa-hourglass-half"></i>
+                                    </div>
+                                    <div>
+                                        <h4>3</h4>
+                                        <span>进行中订单</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 取消订单 -->
+                                <div class="stat-card-inline">
+                                    <div class="stat-icon-sm bg-red-100 text-red-600">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h4>2</h4>
+                                        <span>取消订单</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-md font-medium text-gray-800">最近订单</h4>
+                                    <a href="#" class="text-sm text-blue-600 hover:underline">查看全部</a>
+                                </div>
+                                
+                                <div class="overflow-x-auto">
+                                    <table class="custom-table w-full">
+                                        <thead>
+                                            <tr>
+                                                <th>订单编号</th>
+                                                <th>设备名称</th>
+                                                <th>承租人</th>
+                                                <th>租赁期限</th>
+                                                <th>租金金额</th>
+                                                <th>状态</th>
+                                                <th class="w-24">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="font-medium text-gray-800">ORD20230325002</div>
+                                                </td>
+                                                <td>徐工LW500铲车</td>
+                                                <td>李工程 (客户)</td>
+                                                <td>2023-03-25 至 2023-04-25</td>
+                                                <td>¥36,000</td>
+                                                <td><span class="badge status-active">进行中</span></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-sm btn-primary">详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="font-medium text-gray-800">ORD20230220001</div>
+                                                </td>
+                                                <td>三一485C挖掘机</td>
+                                                <td>天津建工有限公司</td>
+                                                <td>2023-02-20 至 2023-03-10</td>
+                                                <td>¥32,400</td>
+                                                <td><span class="badge badge-success">已完成</span></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-sm btn-primary">详情</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 操作记录标签页 -->
+                        <div id="tab-history" class="tab-pane hidden p-6">
+                            <div class="relative pl-8 pb-6 border-l-2 border-gray-200">
+                                <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                                    <i class="fas fa-user-plus text-white text-xs"></i>
+                                </div>
+                                <div class="mb-1">
+                                    <span class="text-sm font-medium">用户注册</span>
+                                    <span class="text-xs text-gray-500 ml-2">2023-01-15 09:30:45</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    用户通过APP完成注册
+                                </div>
+                            </div>
+                            
+                            <div class="relative pl-8 pb-6 border-l-2 border-gray-200">
+                                <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                    <i class="fas fa-id-card text-white text-xs"></i>
+                                </div>
+                                <div class="mb-1">
+                                    <span class="text-sm font-medium">实名认证</span>
+                                    <span class="text-xs text-gray-500 ml-2">2023-01-16 10:25:30</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    用户完成身份证实名认证
+                                </div>
+                            </div>
+                            
+                            <div class="relative pl-8 pb-6 border-l-2 border-gray-200">
+                                <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center">
+                                    <i class="fas fa-building text-white text-xs"></i>
+                                </div>
+                                <div class="mb-1">
+                                    <span class="text-sm font-medium">企业认证</span>
+                                    <span class="text-xs text-gray-500 ml-2">2023-01-18 15:40:22</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    用户完成企业资质认证
+                                </div>
+                            </div>
+                            
+                            <div class="relative pl-8">
+                                <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center">
+                                    <i class="fas fa-truck-monster text-white text-xs"></i>
+                                </div>
+                                <div class="mb-1">
+                                    <span class="text-sm font-medium">添加设备</span>
+                                    <span class="text-xs text-gray-500 ml-2">2023-02-10 11:20:15</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    用户添加了第一台设备：三一485C挖掘机
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- 移动端侧边栏遮罩 -->
+    <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 hidden" id="sidebar-overlay"></div>
+    
+    <!-- 移动端侧边栏 -->
+    <div class="md:hidden fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-30 transform -translate-x-full transition-transform duration-300" id="mobile-sidebar">
+        <div class="sidebar h-full flex flex-col">
+            <!-- 侧边栏内容（与桌面版相同） -->
+            <div class="p-4 flex items-center border-b border-gray-700">
+                <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                    <p class="text-xs text-gray-400">管理后台</p>
+                </div>
+            </div>
+            
+            <!-- 导航菜单 -->
+            <nav class="flex-1 py-4 overflow-y-auto">
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="fas fa-home"></i>
+                    <span>仪表盘</span>
+                </a>
+                <a href="users.html" class="sidebar-link active">
+                    <i class="fas fa-users"></i>
+                    <span>用户管理</span>
+                </a>
+                <a href="business-registration.html" class="sidebar-link">
+                    <i class="fas fa-building"></i>
+                    <span>工商户注册管理</span>
+                </a>
+                <a href="equipment1.html" class="sidebar-link">
+                    <i class="fas fa-truck-monster"></i>
+                    <span>设备管理</span>
+                </a>
+                <a href="orders.html" class="sidebar-link">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>订单管理</span>
+                </a>
+                <a href="finance.html" class="sidebar-link">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>财务管理</span>
+                </a>
+                <a href="reports.html" class="sidebar-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>报表分析</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i class="fas fa-cog"></i>
+                    <span>系统设置</span>
+                </a>
+            </nav>
+            
+            <!-- 侧边栏底部 -->
+            <div class="p-4 border-t border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                        <i class="fas fa-user text-gray-700"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-white font-medium user-name">管理员</p>
+                        <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前菜单项为激活状态
+            const menuUsers = document.getElementById('menu-users');
+            if (menuUsers) {
+                menuUsers.classList.add('active');
+            }
+            
+            // 设置页面标题
+            const pageTitle = document.getElementById('page-title');
+            if (pageTitle) {
+                pageTitle.textContent = '用户详情';
+            }
+            
+            // 获取用户信息
+            const username = localStorage.getItem('username') || '管理员';
+            const userNameElements = document.querySelectorAll('.user-name');
+            userNameElements.forEach(el => {
+                el.textContent = username;
+            });
+            
+            // 处理移动端侧边栏
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            const mobileSidebar = document.getElementById('mobile-sidebar');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    mobileSidebar.classList.toggle('-translate-x-full');
+                    sidebarOverlay.classList.toggle('hidden');
+                });
+            }
+            
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', () => {
+                    mobileSidebar.classList.add('-translate-x-full');
+                    sidebarOverlay.classList.add('hidden');
+                });
+            }
+            
+            // 处理标签页切换
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 获取要显示的标签页ID
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 移除所有标签页链接的激活状态
+                    tabLinks.forEach(l => {
+                        l.classList.remove('active', 'text-blue-600', 'border-blue-600');
+                        l.classList.add('text-gray-500', 'border-transparent');
+                    });
+                    
+                    // 激活当前点击的标签页链接
+                    this.classList.add('active', 'text-blue-600', 'border-blue-600');
+                    this.classList.remove('text-gray-500', 'border-transparent');
+                    
+                    // 隐藏所有标签页内容
+                    const tabPanes = document.querySelectorAll('.tab-pane');
+                    tabPanes.forEach(pane => {
+                        pane.classList.add('hidden');
+                        pane.classList.remove('active');
+                    });
+                    
+                    // 显示目标标签页内容
+                    const targetTab = document.getElementById('tab-' + tabId);
+                    if (targetTab) {
+                        targetTab.classList.remove('hidden');
+                        targetTab.classList.add('active');
+                    }
+                });
+            });
+            
+            // 处理查看用户证件图片的功能
+            const idCardImages = document.querySelectorAll('.id-card-image');
+            idCardImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    // 这里可以添加查看大图的功能
+                    // 例如使用模态框展示大图
+                    console.log('查看证件大图：', this.dataset.imagetype);
+                });
+            });
+            
+            // 从URL中获取标签页参数并激活对应标签页
+            function activateTabFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const tabParam = urlParams.get('tab');
+                
+                if (tabParam) {
+                    const tabLink = document.querySelector(`.tab-link[data-tab="${tabParam}"]`);
+                    if (tabLink) {
+                        tabLink.click();
+                    }
+                }
+            }
+            
+            // 初始调用激活标签页
+            activateTabFromUrl();
+            
+            // 编辑信息按钮点击事件
+            const editInfoBtn = document.querySelector('.btn-primary');
+            if (editInfoBtn) {
+                editInfoBtn.addEventListener('click', function() {
+                    alert('您即将编辑用户信息');
+                    // 这里可以实现编辑功能，例如弹出一个表单模态框
+                });
+            }
+            
+            // 可以添加更多的交互功能，如：
+            // 1. 用户状态修改功能
+            // 2. 用户认证审核功能
+            // 3. 用户账户操作功能等
+        });
+    </script>
+</body>
+</html> 

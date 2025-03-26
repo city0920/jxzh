@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工商户待办理详情 - 机械租赁平台管理后台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 状态标签样式 */
+        .badge-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 hidden md:block">
+            <div class="sidebar h-full flex flex-col">
+                <!-- 侧边栏头部 -->
+                <div class="p-4 flex items-center border-b border-gray-700">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-lg mr-3">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-medium">机械租赁平台</h1>
+                        <p class="text-xs text-gray-400">管理后台</p>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <nav class="flex-1 py-4 overflow-y-auto">
+                    <a href="dashboard.html" id="menu-dashboard" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="users.html" id="menu-users" class="sidebar-link">
+                        <i class="fas fa-users"></i>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="business-registration.html" id="menu-business" class="sidebar-link active">
+                        <i class="fas fa-building"></i>
+                        <span>工商户注册管理</span>
+                    </a>
+                    <a href="equipment1.html" id="menu-equipment" class="sidebar-link">
+                        <i class="fas fa-truck-monster"></i>
+                        <span>设备管理</span>
+                    </a>
+                    <a href="orders.html" id="menu-orders" class="sidebar-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a href="finance.html" id="menu-finance" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>财务管理</span>
+                    </a>
+                    <a href="reports.html" id="menu-reports" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>报表分析</span>
+                    </a>
+                    <a href="settings.html" id="menu-settings" class="sidebar-link">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+                
+                <!-- 侧边栏底部 -->
+                <div class="p-4 border-t border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white font-medium user-name">管理员</p>
+                            <a href="login.html" class="text-xs text-gray-400 hover:text-white">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- 顶部导航 -->
+            <header class="bg-white shadow-sm top-header flex items-center px-6">
+                <button class="md:hidden mr-6" id="sidebar-toggle">
+                    <i class="fas fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="flex-1">
+                    <h2 class="text-lg font-medium text-gray-800" id="page-title">工商户待办理详情</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- 通知图标 -->
+                    <div class="relative mr-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- 用户信息下拉菜单（移动端隐藏） -->
+                    <div class="hidden md:block relative">
+                        <button class="flex items-center text-gray-700">
+                            <span class="mr-2 text-sm font-medium user-name">管理员</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 返回按钮 -->
+                <div class="mb-6">
+                    <a href="business-registration.html" class="flex items-center text-blue-600 text-sm font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        返回工商户注册管理
+                    </a>
+                </div>
+                
+                <!-- 工商户基本信息 -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                            待办理工商户基本信息
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group mb-0">
+                                <label class="form-label">工商户暂定名称：</label>
+                                <div class="form-text">杭州某某信息技术有限公司</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">申请人姓名：</label>
+                                <div class="form-text">周八</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">身份证号码：</label>
+                                <div class="form-text">330123199001015678</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">联系电话：</label>
+                                <div class="form-text">13866778899</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">注册地址：</label>
+                                <div class="form-text">浙江省杭州市西湖区文三路553号</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">提交时间：</label>
+                                <div class="form-text">2023.04.18 10:15:00</div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="form-label">处理状态：</label>
+                                <div class="form-text">
+                                    <span class="badge badge-secondary">未办理</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 已上传资料 -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-file-alt mr-2 text-blue-500"></i>
+                            已上传资料
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="border rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-image text-blue-500 text-xl mr-2"></i>
+                                        <span class="text-sm font-medium">法人身份证（正面）</span>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="text-blue-600 text-sm hover:underline">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                                    <i class="fas fa-file-image text-blue-500 text-4xl"></i>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    上传时间：2023.04.18 10:15:00
+                                </div>
+                            </div>
+                            
+                            <div class="border rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-image text-blue-500 text-xl mr-2"></i>
+                                        <span class="text-sm font-medium">法人身份证（反面）</span>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="text-blue-600 text-sm hover:underline">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                                    <i class="fas fa-file-image text-blue-500 text-4xl"></i>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    上传时间：2023.04.18 10:15:00
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 处理操作 -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-tasks mr-2 text-blue-500"></i>
+                            处理操作
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="form-group">
+                                <label class="form-label" for="company-name">企业名称：</label>
+                                <input type="text" id="company-name" class="form-control" placeholder="请输入正式的企业名称" value="杭州某某信息技术有限公司">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="credit-code">社会统一信用代码：</label>
+                                <input type="text" id="credit-code" class="form-control" placeholder="请输入18位统一社会信用代码">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="form-label">营业执照上传：</label>
+                            <div class="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                <div class="mb-3">
+                                    <i class="fas fa-file-upload text-blue-500 text-2xl"></i>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">点击或拖拽文件到此处上传</p>
+                                <p class="text-xs text-gray-500 mb-3">支持JPG、PNG、PDF格式，文件大小不超过5MB</p>
+                                <label for="license-upload" class="btn btn-blue">
+                                    <i class="fas fa-upload mr-2"></i>选择文件
+                                </label>
+                                <input type="file" id="license-upload" class="hidden" accept=".jpg,.jpeg,.png,.pdf">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="form-group">
+                                <label class="form-label" for="start-date">有效期开始日期：</label>
+                                <input type="date" id="start-date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="end-date">有效期结束日期：</label>
+                                <input type="date" id="end-date" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center mt-6">
+                            <button class="btn btn-success" id="complete-btn">
+                                <i class="fas fa-check mr-2"></i>已办理
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 处理记录 -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-800">
+                            <i class="fas fa-history mr-2 text-blue-500"></i>
+                            处理记录
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="relative pl-8 pb-6 border-l-2 border-gray-200">
+                            <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                                <i class="fas fa-file-alt text-white text-xs"></i>
+                            </div>
+                            <div class="mb-1">
+                                <span class="text-sm font-medium">申请提交</span>
+                                <span class="text-xs text-gray-500 ml-2">2023.04.18 10:15:00</span>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                申请人提交了工商户注册申请
+                            </div>
+                        </div>
+                        
+                        <div class="relative pl-8 pb-6 border-l-2 border-gray-200">
+                            <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center">
+                                <i class="fas fa-eye text-white text-xs"></i>
+                            </div>
+                            <div class="mb-1">
+                                <span class="text-sm font-medium">材料审核</span>
+                                <span class="text-xs text-gray-500 ml-2">2023.04.18 14:30:00</span>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                管理员审核了申请材料
+                            </div>
+                        </div>
+                        
+                        <div class="relative pl-8">
+                            <div class="absolute -left-2 top-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                <i class="fas fa-phone-alt text-white text-xs"></i>
+                            </div>
+                            <div class="mb-1">
+                                <span class="text-sm font-medium">联系申请人</span>
+                                <span class="text-xs text-gray-500 ml-2">2023.04.19 09:45:00</span>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                管理员已电话联系申请人，确认身份信息
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前菜单项为激活状态
+            document.getElementById('menu-business').classList.add('active');
+            
+            // 为移动端添加侧边栏切换功能
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.querySelector('aside');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('z-10');
+                sidebar.classList.toggle('inset-0');
+            });
+            
+            // 营业执照上传预览
+            const licenseUpload = document.getElementById('license-upload');
+            
+            licenseUpload.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    
+                    // 检查文件大小
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('文件大小不能超过5MB');
+                        return;
+                    }
+                    
+                    // 检查文件类型
+                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('请上传JPG、PNG或PDF格式的文件');
+                        return;
+                    }
+                    
+                    // 显示文件名
+                    const uploadContainer = e.target.closest('.border-dashed');
+                    const oldFileInfo = uploadContainer.querySelector('.file-info');
+                    if (oldFileInfo) {
+                        oldFileInfo.remove();
+                    }
+                    
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'file-info flex items-center justify-center mt-3 p-2 bg-green-50 rounded';
+                    fileInfo.innerHTML = `
+                        <i class="fas fa-file-alt text-green-500 mr-2"></i>
+                        <span class="text-sm text-gray-700">${file.name}</span>
+                        <button type="button" class="ml-2 text-red-500 remove-file">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    uploadContainer.appendChild(fileInfo);
+                    
+                    // 添加删除文件的事件
+                    fileInfo.querySelector('.remove-file').addEventListener('click', function() {
+                        licenseUpload.value = '';
+                        fileInfo.remove();
+                    });
+                }
+            });
+            
+            // 已办理按钮点击事件
+            document.getElementById('complete-btn').addEventListener('click', function() {
+                const companyName = document.getElementById('company-name').value;
+                const creditCode = document.getElementById('credit-code').value;
+                const startDate = document.getElementById('start-date').value;
+                const endDate = document.getElementById('end-date').value;
+                const licenseFile = document.getElementById('license-upload').files[0];
+                
+                // 表单验证
+                if (!companyName) {
+                    alert('请输入企业名称');
+                    return;
+                }
+                
+                if (!creditCode) {
+                    alert('请输入社会统一信用代码');
+                    return;
+                } else if (creditCode.length !== 18) {
+                    alert('社会统一信用代码必须为18位');
+                    return;
+                }
+                
+                if (!licenseFile) {
+                    alert('请上传营业执照');
+                    return;
+                }
+                
+                if (!startDate || !endDate) {
+                    alert('请选择有效期起止日期');
+                    return;
+                }
+                
+                if (new Date(startDate) >= new Date(endDate)) {
+                    alert('有效期结束日期必须晚于开始日期');
+                    return;
+                }
+                
+                if (confirm('确认该申请已办理完成？')) {
+                    alert('已成功标记为已办理');
+                    // 跳转回工商户注册管理页面
+                    window.location.href = 'business-registration.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
