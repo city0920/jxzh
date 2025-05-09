@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>司机端下载 - 机械租赁平台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      background-color: #f5f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .iphone-frame {
+      position: relative;
+      width: 375px;
+      height: 812px;
+      background-color: #111;
+      border-radius: 48px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      overflow: hidden;
+      box-sizing: border-box;
+      /* 物理按钮 */
+      border-left: 2px solid #333;
+      border-right: 2px solid #333;
+    }
+    
+    /* 电源按钮 */
+    .iphone-frame::before {
+      content: '';
+      position: absolute;
+      top: 120px;
+      right: -2px;
+      width: 3px;
+      height: 30px;
+      background-color: #333;
+      border-radius: 2px 0 0 2px;
+    }
+    
+    /* 音量按钮 */
+    .iphone-frame::after {
+      content: '';
+      position: absolute;
+      top: 100px;
+      left: -2px;
+      width: 3px;
+      height: 60px;
+      background-color: #333;
+      border-radius: 0 2px 2px 0;
+    }
+    
+    .iphone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 32px;
+      background-color: #111;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      z-index: 10;
+    }
+    
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 38px;
+      overflow: hidden;
+      position: relative;
+      background-color: #fff;
+    }
+    
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 5px 20px;
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      font-size: 14px;
+      background-color: #1e88e5;
+      color: white;
+    }
+    
+    .app-header {
+      background: #1e88e5;
+      color: white;
+      padding: 60px 20px 30px;
+      text-align: center;
+    }
+    
+    .screen-content {
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+      scroll-behavior: smooth;
+      /* 隐藏滚动条但保持可滚动 */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+    
+    /* 为Webkit浏览器隐藏滚动条 */
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .app-icon {
+      width: 80px;
+      height: 80px;
+      background-color: #f9a825;
+      border-radius: 18px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .download-btn {
+      background-color: white;
+      color: #1e88e5;
+      border-radius: 24px;
+      padding: 10px 24px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 240px;
+      margin: 10px auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .footer-graphics {
+      position: relative;
+      height: 220px;
+      width: 100%;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .footer-image {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 140px;
+      bottom: 60px;
+    }
+    
+    .info-bubble-left {
+      position: absolute;
+      bottom: 140px;
+      left: calc(50% - 60px);
+      width: 50px;
+      height: 50px;
+      background-color: #ff9800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .info-bubble-right {
+      position: absolute;
+      bottom: 170px;
+      right: calc(50% - 80px);
+      width: 36px;
+      height: 36px;
+      background-color: #4caf50;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .footer-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 0;
+    }
+    
+    .usage-section, .system-req-section, .faq-section {
+      padding: 20px;
+      border-bottom: 10px solid #f5f5f7;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    
+    .step-number {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: #1e88e5;
+      color: white;
+      font-weight: bold;
+      margin-right: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    
+    .step-container {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    
+    .step-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #333;
+    }
+    
+    .step-content p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+    
+    .system-item {
+      margin-bottom: 24px;
+    }
+    
+    .system-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .system-header i {
+      font-size: 22px;
+      margin-right: 10px;
+      color: #333;
+    }
+    
+    .system-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .system-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .system-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .system-list i {
+      color: #4caf50;
+      margin-right: 8px;
+    }
+    
+    .faq-item {
+      margin-bottom: 20px;
+    }
+    
+    .faq-question {
+      display: flex;
+      align-items: flex-start;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .faq-question i {
+      color: #1e88e5;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    
+    .faq-answer {
+      font-size: 14px;
+      color: #666;
+      margin-left: 24px;
+    }
+    
+    .home-indicator {
+      position: sticky;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 5px;
+      background-color: #ddd;
+      border-radius: 3px;
+      margin: 8px auto;
+    }
+    
+    @media (max-width: 768px) {
+      .iphone-frame {
+        width: 320px;
+        height: 680px;
+        border-radius: 40px;
+      }
+      
+      .iphone-screen {
+        border-radius: 32px;
+      }
+      
+      .iphone-notch {
+        width: 150px;
+        height: 25px;
+      }
+      
+      .app-icon {
+        width: 70px;
+        height: 70px;
+      }
+      
+      .download-btn {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="iphone-frame">
+      <div class="iphone-notch"></div>
+      <div class="iphone-screen">
+        <div class="screen-content">
+          <!-- 状态栏 -->
+          <div class="status-bar">
+            <div class="left">9:41</div>
+            <div class="right">
+              <i class="fas fa-signal"></i>
+              <i class="fas fa-wifi ml-2"></i>
+              <i class="fas fa-battery-three-quarters ml-2"></i>
+            </div>
+          </div>
+          
+          <!-- App头部 -->
+          <div class="app-header">
+            <div class="app-icon">
+              <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 6V9H16V6H13ZM13 13H16V10H13V13ZM19 10V13H22V10H19ZM19 17H22V14H19V17ZM2 17H5V14H2V17ZM9 13V10H6V13H9ZM9 17V14H6V17H9ZM13 17H16V14H13V17Z" fill="white"/>
+                <path d="M11 18.9995C11 19.5518 10.5523 19.9995 10 19.9995H8C7.44772 19.9995 7 19.5518 7 18.9995V12.9995H5C4.44772 12.9995 4 12.5518 4 11.9995V9.99951C4 9.84082 4.03901 9.68736 4.11057 9.5524L7.11057 3.5524C7.28368 3.21909 7.62708 2.99951 8 2.99951H10C10.5523 2.99951 11 3.44723 11 3.99951V10.9995H12C12.5523 10.9995 13 11.4472 13 11.9995V17.9995" stroke="white" stroke-width="2"/>
+              </svg>
+            </div>
+
+            <h1 class="text-2xl font-bold mb-2">机械租赁平台</h1>
+            <p class="text-base opacity-95 mb-8">司机端 APP</p>
+            
+            <!-- iOS下载按钮 -->
+            <a href="#" class="download-btn mb-4">
+              <i class="fab fa-apple text-xl mr-3"></i>
+              <span>苹果版下载</span>
+            </a>
+
+            <!-- 安卓下载按钮 -->
+            <a href="#" class="download-btn">
+              <i class="fab fa-android text-xl mr-3"></i>
+              <span>安卓版下载</span>
+            </a>
+
+            <!-- 底部图像和信息气泡 -->
+            <div class="footer-graphics">
+              <div class="info-bubble-left">
+                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 4H6C4.89543 4 4 4.89543 4 6V15C4 16.1046 4.89543 17 6 17H7V20.0625C7 20.5765 7.59 20.8345 7.97 20.5095L11.5 17H18C19.1046 17 20 16.1046 20 15V6C20 4.89543 19.1046 4 18 4Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 9H16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 13H13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              
+              <div class="info-bubble-right">
+                <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 10L11 14L9 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="white" stroke-width="2"/>
+                </svg>
+              </div>
+              
+              <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyI+PHBhdGggZD0iTTI0LDgwIEwxMDQsODAiLz48cGF0aCBkPSJNMjQsODAgTDI0LDk2Ii8+PHBhdGggZD0iTTEwNCw4MCBMMTEyLDk2Ii8+PHBhdGggZD0iTTI0LDk2IEwxMTIsOTYiLz48cGF0aCBkPSJNNDAsODAgTDQwLDY0Ii8+PHBhdGggZD0iTTQwLDY0IEw2NCw2NCIvPjxwYXRoIGQ9Ik02NCw2NCBMODY0LDQ4Ii8+PHBhdGggZD0iTTY0LDQ4IEw4OCw0OCIvPjxwYXRoIGQ9Ik04OCw0OCBMODgsODAiLz48cGF0aCBkPSJNNDAsODAgTDQwLDY0Ii8+PHBhdGggZD0iTTY0LDQ4IEw2NCw2NCIvPjxwYXRoIGQ9Ik03Miw5NiBMNzIsODAiLz48cGF0aCBkPSJNODgsOTYgTDg4LDgwIi8+PGNpcmNsZSBjeD0iMzYiIGN5PSI5NiIgcj0iOCIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9Ijk2IiByPSI4Ii8+PHJlY3QgeD0iNzAiIHk9IjYwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIC8+PC9zdmc+" alt="挖掘机图标" class="footer-image">
+              
+              <div class="footer-text">
+                <div class="text-sm mt-2 text-white">设备管理·任务执行</div>
+                <div class="text-xs mt-1 text-blue-100">高效协同 工程施工专家</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 使用说明 -->
+          <div class="usage-section">
+            <h2 class="section-title">使用说明</h2>
+            <div class="step-container">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>下载并安装</h3>
+                <p>根据您的手机系统选择相应版本下载，安装完成后打开应用。</p>
+              </div>
+            </div>
+            
+            <div class="step-container">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>账号登录</h3>
+                <p>使用您的工号和密码登录系统，如未注册请联系管理员创建账号。</p>
+              </div>
+            </div>
+            
+            <div class="step-container">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>接收任务</h3>
+                <p>在首页查看分配给您的任务，点击接受开始工作。</p>
+              </div>
+            </div>
+            
+            <div class="step-container">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>设备状态更新</h3>
+                <p>定期更新设备状态，上传检查报告和设备照片，确保平台信息同步。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 系统要求 -->
+          <div class="system-req-section">
+            <h2 class="section-title">系统要求</h2>
+            
+            <div class="system-item">
+              <div class="system-header">
+                <i class="fab fa-apple"></i>
+                <h3>iOS 版本</h3>
+              </div>
+              <ul class="system-list">
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>iOS 12.0 或更高版本</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>兼容 iPhone、iPad</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>需要 100MB 可用存储空间</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>需要定位、摄像头和网络权限</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="system-item">
+              <div class="system-header">
+                <i class="fab fa-android"></i>
+                <h3>安卓版本</h3>
+              </div>
+              <ul class="system-list">
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>Android 7.0 或更高版本</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>2GB RAM 或更高</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>需要 120MB 可用存储空间</span>
+                </li>
+                <li>
+                  <i class="fas fa-check"></i>
+                  <span>需要定位、摄像头和网络权限</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 常见问题 -->
+          <div class="faq-section">
+            <h2 class="section-title">常见问题</h2>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <i class="fas fa-question-circle"></i>
+                <span>无法登录怎么办？</span>
+              </div>
+              <p class="faq-answer">请确认您的用户名和密码正确，网络连接稳定。如果仍然无法登录，请联系系统管理员重置密码。</p>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <i class="fas fa-question-circle"></i>
+                <span>应用占用内存过大怎么解决？</span>
+              </div>
+              <p class="faq-answer">您可以在应用设置中清除缓存，或者卸载重新安装应用。</p>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <i class="fas fa-question-circle"></i>
+                <span>如何更新应用到最新版本？</span>
+              </div>
+              <p class="faq-answer">iOS用户可以通过App Store更新，安卓用户可以通过应用内提示更新或者在本页面下载最新版本安装包进行更新。</p>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <i class="fas fa-question-circle"></i>
+                <span>意见反馈和技术支持</span>
+              </div>
+              <p class="faq-answer">如有使用问题或建议，请通过应用内的"意见反馈"功能向我们反馈，或拨打技术支持热线：400-123-4567。</p>
+            </div>
+          </div>
+          
+          <!-- 底部指示条 -->
+          <div class="home-indicator"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 为下载按钮添加点击事件
+    const downloadButtons = document.querySelectorAll('.download-btn');
+    downloadButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 此处应添加实际下载链接或下载逻辑
+        const platform = button.querySelector('.fab').classList.contains('fa-apple') ? 'iOS' : 'Android';
+        
+        // 模拟下载逻辑，实际应用中应替换为真实下载地址
+        alert(`正在准备下载${platform}版本，请稍候...`);
+        
+        // 如果有实际下载链接，使用 window.location.href = 'your_download_url';
+      });
+    });
+  </script>
+</body>
+</html> 
